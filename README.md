@@ -14,12 +14,17 @@ nuestro entorno de desarrollo está ubicado en
 
 ```apacheconf
 <VirtualHost fxarch.proyecto_neg.site:80>
+  DocumentRoot /home/tysyak/public_html/proyecto_neg  
+ 
+  <Directory  /home/tysyak/public_html/proyecto_neg>
+    Options Indexes FollowSymLinks MultiViews
+    AllowOverride all
+    Order allow,deny
+    allow from all
+  </Directory>
+  
   ServerName fxarch.proyecto_neg.site
-
-  ProxyRequests Off
-  ProxyPass /proyecto_neg http://localhost/proyecto_neg
-  ProxyPassReverse /proyecto_neg http://loacalhost/proyecto_neg
-</VirtualHost> 
+</VirtualHost>
 ```
 
 Agregar el mismo host en el archivo `/etc/hosts` 

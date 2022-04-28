@@ -6,8 +6,6 @@ use PDOException;
 
 class DataBase extends PDO
 {
-    protected PDO $conn;
-
     public function __construct(
         string $driver=DRIVER,
         string $host=HOST,
@@ -18,7 +16,7 @@ class DataBase extends PDO
     )
     {
         try {
-            $this->connn = parent::__construct(
+            parent::__construct(
                 $driver.
                 ':host='.$host.
                 ';dbname='.$dbname.

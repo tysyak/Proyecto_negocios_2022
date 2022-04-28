@@ -34,8 +34,9 @@ Agregar el mismo host en el archivo `/etc/hosts`
 127.0.0.1	fxarch.proyecto_neg.site
 ```
 
-Reiniciamos el servicio de apache e ingresamos a 
+Reiniciamos el servicio de apache e ingresamos[^3] a 
 http://fxarch.proyecto_neg.site/
 
 [1^]: https://linuxconfig.org/how-to-set-up-apache-webserver-proxy-in-front-of-apache-tomcat-on-red-hat-linux
 [2^]: https://wiki.archlinux.org/title/Apache_HTTP_Server#User_directories
+[^3]: `fxarch` es el Hostname de la máquina, se puede cambiar por cualquier valor.

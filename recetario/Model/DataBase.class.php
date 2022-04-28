@@ -1,5 +1,5 @@
 <?php
-namespace Model\DataBase;
+namespace Model;
 
 use PDO;
 use PDOException;

@@ -1,5 +1,5 @@
 <?php
-namespace Conf\Constants;
+namespace Conf;
 
 // prod, dev
 define('ENV', 'dev');

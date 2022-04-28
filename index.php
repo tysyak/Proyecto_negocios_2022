@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 // TODO: Automatic require for extension *.class.php
 require_once 'conf/constants.php';

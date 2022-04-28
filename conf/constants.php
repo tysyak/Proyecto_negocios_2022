@@ -18,6 +18,7 @@ switch (ENV) {
         define('PORT', '3306');
         define('USER_DB', 'chef');
         define('PASS_DB', 'Hola1234!');
+        define('SITIO', 'http://fxarch.proyecto_neg.site/');
         break;
     default:
         error_reporting(E_ALL);
@@ -28,5 +29,5 @@ switch (ENV) {
         define('PORT', '3306');
         define('USER_DB', 'chef');
         define('PASS_DB', 'Hola1234!');
-
+        define('SITIO', 'http://fxarch.proyecto_neg.site/');
 }

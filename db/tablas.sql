@@ -3,7 +3,7 @@ create or replace table usuario (
   username varchar(32) unique,
   creation_time timestamp default CURRENT_TIMESTAMP(),
   modification_time timestamp default CURRENT_TIMESTAMP()
-    ON UPDATE current_timestamp(),
+    ON UPDATE current_timestamp()
 );
 
 
@@ -14,7 +14,7 @@ create or replace table datos_usuario (
   apellido_materno varchar(32) null,
   fecha_nacimienro date not null,
   estatura int default 0, -- centimetros enteros
-  peso number(5,2) default 0.0,
+  peso decimal(5,2) default 0.0,
   modification_time timestamp default CURRENT_TIMESTAMP()
-    ON UPDATE current_timestamp(),
+    ON UPDATE current_timestamp()
 );

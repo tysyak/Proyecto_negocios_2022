@@ -18,3 +18,33 @@ create or replace table datos_usuario (
   modification_time timestamp default CURRENT_TIMESTAMP()
     ON UPDATE current_timestamp()
 );
+
+create or replace table receta (
+  id serial primary key,
+  titulo varchar(32) not null
+);
+
+create or replace table receta_pasos_tipo_catalogo(
+  tipo char(1) primary key,
+  descripcion varchar(50) not null
+);
+
+INSERT into receta_pasos_tipo_catalogo(tipo, descripcion)
+values('P', 'Pasos de la Receta');
+INSERT into receta_pasos_tipo_catalogo(tipo, descripcion)
+values('M', 'Materiales e ingredientes de la receta');
+
+create or replace table receta_pasos (
+  id_receta bigint(20) unsigned references receta(id),
+  paso int unsigned not null,
+  descripcion text not null,
+  tipo char(1) default 'P' references receta_pasos_tipo_catalogo(tipo),
+ primary key(id_receta, paso)
+);
+
+create or replace table receta_materiales (
+  id_receta bigint(20) unsigned references receta(id),
+  paso int unsigned not null,
+  descripcion text not null,
+  primary key(id_receta, paso)
+);

@@ -1,5 +1,5 @@
-# Proyecto_negocios_2022
-Proyecto para negocios electronicos y desarrollo web, un recetario
+# Proyecto negocios 2022
+Proyecto para negocios electrónicos y desarrollo web, un recetario
 
 
 ## Notas de Configuración

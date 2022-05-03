@@ -4,8 +4,7 @@ session_start();
 
 require_once 'conf/constants.php';
 
-
-require_once 'recetario/Model/Router.php';
+require_once 'recetario/Model/Router.class.php';
 
 use Model\Router;
 

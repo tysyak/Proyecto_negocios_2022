@@ -12,7 +12,7 @@ create or replace table datos_usuario (
   nombre varchar(32) not null,
   apellido_paterno varchar(32) not null,
   apellido_materno varchar(32) null,
-  fecha_nacimienro date not null,
+  fecha_nacimiento date not null,
   estatura int default 0, -- centimetros enteros
   peso decimal(5,2) default 0.0,
   modification_time timestamp default CURRENT_TIMESTAMP()

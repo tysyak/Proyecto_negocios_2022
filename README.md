@@ -4,6 +4,17 @@ Proyecto para negocios electrónicos y desarrollo web, un recetario
 
 ## Notas de Configuración
 
+### Módulos
+
+Regularmente con los módulos por defecto es más que suficientes
+(si se usa una instalación como Appserver o XAMPP), sin embargo
+nos basaremos en la instalación PHP de la Wiki de arch linux: 
+https://wiki.archlinux.org/title/Apache_HTTP_Server#PHP
+
+Otro módulo importante para poder implementar un Router es el módulo de 
+ `LoadModule rewrite_module modules/mod_rewrite.so`
+
+
 ### Configurar VirtualHost y Proxy
 
 Agregar las siguientes líneas en el archivo de configuración de 

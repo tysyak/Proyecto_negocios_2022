@@ -21,6 +21,7 @@ create or replace table datos_usuario (
 
 create or replace table receta (
   id serial primary key,
+  imagen blob null,
   titulo varchar(32) not null
 );
 
@@ -36,7 +37,7 @@ values('M', 'Materiales e ingredientes de la receta');
 
 create or replace table receta_pasos (
   id_receta bigint(20) unsigned references receta(id),
-  paso int unsigned not null,
+  id_paso int unsigned not null,
   descripcion text not null,
   tipo char(1) default 'P' references receta_pasos_tipo_catalogo(tipo),
  primary key(id_receta, paso)
@@ -44,7 +45,7 @@ create or replace table receta_pasos (
 
 create or replace table receta_materiales (
   id_receta bigint(20) unsigned references receta(id),
-  paso int unsigned not null,
+  id_paso int unsigned not null,
   descripcion text not null,
   primary key(id_receta, paso)
 );

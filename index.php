@@ -4,25 +4,54 @@ session_start();
 
 require_once 'conf/constants.php';
 
-require_once 'recetario/Model/Router.class.php';
+/** Carga las clases y controladores */
+function load_model(string $class_name)
+{
+    $class_name = str_replace('\\','/',$class_name);
+    $path_to_file = PATH.'/recetario/'.$class_name.'.class.php';
 
+    if (file_exists($path_to_file)) {
+        require $path_to_file;
+    }
+    $path_to_file = PATH.'/recetario/'.$class_name.'.php';
+
+    if (file_exists($path_to_file)) {
+        require $path_to_file;
+    }
+}
+
+spl_autoload_register('load_model');
+
+use Controller\RecetaController;
 use Model\Router;
+
 
 $router = new Router();
 
+
+
 // Index
-$router->get('/', function () { require_once __DIR__.'/recetario/view/panel.view.php';
+$router->get('/', function () use ($router) {
+    $router->render('panel');
 });
 
-// Ejemplo con parametros en GET
-$router->get('/about', function (array $params) {
-    echo 'About';
-    echo '<h1>'. $params['parametro']. '</h1>';
+// Ejemplo con parametros en POST
+ $router->post('/api/receta', function ($params) {
+     $id = $params['id'] ?? null;
+     header('Content-Type: application/json');
+     RecetaController::get_receta($id);
+ });
+
+$router->get('/about', function () use ($router) {
+    $router->render('about');
 });
 
-$router->add_not_found_handler(function () {
-    $title = '404 No se encuentra lo que buscas, verifica la URL';
-    require_once __DIR__.'/recetario/view/404.view.php';
+$router->get('/contacto', function () use ($router) {
+    $router->render('contacto');
+});
+
+$router->add_not_found_handler(function () use ($router) {
+    $router->render('404');
 });
 
 $router->run();

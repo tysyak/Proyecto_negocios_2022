@@ -1,7 +1,6 @@
 <?php
-/* @var string $title */
 ?>
 
 <h1>
-    <?= $title ?>
+    404 No se encuentra lo que buscas, verifica la URL
 </h1>

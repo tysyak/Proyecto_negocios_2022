@@ -27,7 +27,7 @@ class Usuario
      * @param string $username
      * @return void
      */
-    public function set_usuario(string $username)
+    public function set_usuario(string $username): void
     {
         $query = 'insert into usuario(username) values (:username)';
         $stmt = $this->db->prepare($query);
@@ -47,7 +47,7 @@ class Usuario
      * @param string $username
      * @return void
      */
-    public function get_usuario(string $username)
+    public function get_usuario(string $username): void
     {
         $query = "select id, username, creation_time, modification_time from usuario where username = :username";
         $stmt = $this->db->prepare($query);
@@ -68,17 +68,17 @@ class Usuario
      * @param int|null $offset
      * @return void
      */
-    public function get_all(int $limit=null, int $offset=null)
+    public function get_all(int $limit=null, int $offset=null): void
     {
         $query = 'SELECT id, username, creation_time, modification_time from usuario';
-        $query .= (!is_null($limit)) ? " limit $limit" : '';
-        $query .= (!is_null($offset)) ? " offset $offset" : '';
+        $query .= is_null($limit) ? '' : " limit $limit";
+        $query .= is_null($offset) ? '' : " offset $offset";
 
         $stmt = $this->db->prepare($query);
 
         $stmt->execute();
 
-        $resp = $stmt->fetchAll();
+        $resp = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $this->set_all($resp);
         $this->outcome = true;
     }
@@ -98,7 +98,7 @@ class Usuario
         string $creation_time='0001-01-01 00:00:01.000',
         string $modification_time='0001-01-01 00:00:01.000',
         bool $outcome=false
-    )
+    ) : void
     {
         var_dump(strtotime($creation_time));
         $this->id = $id;
@@ -109,7 +109,7 @@ class Usuario
         $this->manny = array();
     }
 
-    private function set_all(array $manny_users)
+    private function set_all(array $manny_users): void
     {
         $i = 0;
         while ($i != count($manny_users)) {

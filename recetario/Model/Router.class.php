@@ -8,6 +8,7 @@ class Router
     private $not_found_handler;
     private const METHOD_POST = 'POST';
     private const  METHOD_GET = 'GET';
+    private const VIEW_PATH = PATH.'/recetario/view/';
 
     public function get(string $path, $handler): void
     {
@@ -34,6 +35,16 @@ class Router
         $this->not_found_handler = $handler;
     }
 
+    public function render(string $view, array $data=[]): void
+    {
+        if ($view != 'panel') {
+            $view = file_get_contents(self::VIEW_PATH . '/'.$view.'.'.'view.php');
+        } else {
+            $view=null;
+        }
+        require_once self::VIEW_PATH . '/panel.view.php';
+    }
+
     public function run()
     {
         $request_uri = parse_url($_SERVER['REQUEST_URI']);
@@ -44,6 +55,17 @@ class Router
         foreach ($this->handlers as $handler) {
             if ($handler['path'] == $request_path && $method == $handler['method']) {
                 $callback = $handler['handler'];
+            }
+        }
+
+        if (is_string($callback)) {
+            $parts = explode('::', $callback);
+            if (is_array($parts)) {
+                $className = array_shift($parts);
+                $handler = new $className;
+
+                $method = array_shift($parts);
+                $callback = [$handler, $method];
             }
         }
 

@@ -45,7 +45,7 @@ create or replace table receta_pasos (
 
 create or replace table receta_materiales (
   id_receta bigint(20) unsigned references receta(id),
-  id_paso int unsigned not null,
+  id_material int unsigned not null,
   descripcion text not null,
   primary key(id_receta, paso)
 );

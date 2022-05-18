@@ -71,6 +71,62 @@ usando el comando:
 httpd -k restart
 ```
 
+### VirtualHosts
+
+Para usar un host virtual, por ejemplo `C:\Users\www\Proyecto`, debemos cargar unos modulos
+
+```apacheconf
+LoadModule vhost_alias_module modules/mod_vhost_alias.so
+```
+
+Tambien descomentamos 
+
+```apacheconf
+Include conf/extra/httpd-vhosts.conf
+```
+
+y agregamos nuestra raiz del proyecto (o bien la ubicación de `index.php` del proyecto) a la configuración
+del host virtual en `C:\Program Files\Apache24\conf\extra\httpd-vhosts.conf`:
+
+```àpacheconf
+<VirtualHost fxarch.proyecto_neg.site:80>
+  DocumentRoot "C:\Users\www\Proyecto"
+ 
+  <Directory  "C:\Users\www\Proyecto">
+    Options Indexes FollowSymLinks MultiViews
+    AllowOverride all
+    Order allow,deny
+    Allow from all
+    Require all granted
+  </Directory>
+  
+  ServerName localhost.proyecto.site
+</VirtualHost>
+```
+
+Donde `localhost.proyecto.site` lo agregamos en el archivo `C:\Windows\System32\drivers\etc\hosts`, por ejemplo:
+
+```unixconfig
+# ...
+# localhost name resolution is handled within DNS itself.
+127.0.0.1       localhost localhost.proyecto.site
+# ...
+```
+
+Volvemos a `httpd.conf` y descomentamos:
+
+```apacheconf
+LoadModule access_compat_module modules/mod_access_compat.so
+```
+
+Y, por si un proyecto requiere la configuración mediante `.htaccess` activamos el siguiente módulo:
+
+```apacheconf
+LoadModule rewrite_module modules/mod_rewrite.so
+```
+
+Reiniciamos el servicio de Apache y probamos
+
 ## PHP
 
 Igual que apache, descargamos los binarios

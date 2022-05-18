@@ -137,7 +137,7 @@ carpeta en `C:\Program Files\`. Agregamos `C:\Program Files\php` a la variable
 
 En `C:\Program Files\php` renombramos `php.ini-development` a `php.ini`.
 
-En el archivo de configuración de apache `C:\Program Files\Apache24\conf\httpf.conf`, 
+En el archivo de configuración de apache `C:\Program Files\Apache24\conf\httpd.conf`, 
 al final de donde cargamos los módulos o al final del archivo agregamos las instalación
 de PHP.
 

@@ -88,7 +88,7 @@ Include conf/extra/httpd-vhosts.conf
 y agregamos nuestra raíz del proyecto (o bien la ubicación de `index.php` del proyecto) a la configuración
 del host virtual en `C:\Program Files\Apache24\conf\extra\httpd-vhosts.conf`:
 
-```àpacheconf
+```apacheconf
 <VirtualHost localhost.proyecto.site:80>
   DocumentRoot "C:\Users\www\Proyecto"
  

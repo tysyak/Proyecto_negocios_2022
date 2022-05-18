@@ -45,7 +45,7 @@ Por
 Define SRVROOT "C:/Program Files/Apache24"
 ```
 
-Agremamos la carpeta `C:\Program Files\Apache24\bin` a la variable `PATH` del 
+Agregamos la carpeta `C:\Program Files\Apache24\bin` a la variable `PATH` del 
 sistema (reiniciamos).
 
 Abrimos una terminal con permisos administrativos, en este caso usaremos 

@@ -11,16 +11,16 @@ Para configurar una pila Windows Apache Php y MySQL/MariaDB se seleccionó el si
 + [MariaDB 10.7 (ArchLinux)](https://mariadb.org/download/?t=mariadb&p=mariadb&r=10.6.7&os=windows&cpu=x86_64&pkg=msi&m=gigenet)
 + [MySQL (Windows)](https://dev.mysql.com/downloads/installer/)
 
-El sistema se probó en Windows 10, Windows 11 y ArchLinux. Para instalaciónes
+El sistema se probó en Windows 10, Windows 11 y ArchLinux. Para instalaciones
 Linux se recomienda ver su documentación oficial, en caso de Arch su [Wiki
-en ingles](https://wiki.archlinux.org) esta suficientemente documentada para la instalción para esta Stack.
+en ingles](https://wiki.archlinux.org) esta suficientemente documentada para la instalación para esta Stack.
 
 Se considera que la maquina de instalación no haya tenido previamente una 
-instancia de apache, si no, se recomenienda terminar el servicios Apache24 
+instancia de apache, si no, se recomienda terminar el servicios Apache24 
 desde el panel de Servicios (se puede buscar desde el panel de control) de 
 windows.
 
-Se usarán versiónes de 64bits, por lo tanto usaremos el directorio 
+Se usarán versiones de 64bits, por lo tanto usaremos el directorio 
 `C:\Program Files` para instalar el software, en caso de usar 32bits se usará 
 `C:\Program Files (x86)`,
 
@@ -49,7 +49,7 @@ Agremamos la carpeta `C:\Program Files\Apache24\bin` a la variable `PATH` del
 sistema (reiniciamos).
 
 Abrimos una terminal con permisos administrativos, en este caso usaremos 
-Powershell 7, tambien se puede usar CMD sin problema alguno.
+Powershell 7, también se puede usar CMD sin problema alguno.
 
 Ejecutamos el siguiente comando para instalar el servidor
 
@@ -57,7 +57,7 @@ Ejecutamos el siguiente comando para instalar el servidor
 httpd -k install
 ```
 
-Si no devolvio ningun mensaje de error inciamos el servidor con el siguiente
+Si no devolvió ningún mensaje de error iniciamos el servidor con el siguiente
 comando
 
 ```powershell
@@ -71,21 +71,107 @@ usando el comando:
 httpd -k restart
 ```
 
+### VirtualHosts
+
+Para usar un host virtual, por ejemplo `C:\Users\www\Proyecto`, debemos cargar unos módulos
+
+```apacheconf
+LoadModule vhost_alias_module modules/mod_vhost_alias.so
+```
+
+También descomentamos 
+
+```apacheconf
+Include conf/extra/httpd-vhosts.conf
+```
+
+y agregamos nuestra raíz del proyecto (o bien la ubicación de `index.php` del proyecto) a la configuración
+del host virtual en `C:\Program Files\Apache24\conf\extra\httpd-vhosts.conf`:
+
+```àpacheconf
+<VirtualHost localhost.proyecto.site:80>
+  DocumentRoot "C:\Users\www\Proyecto"
+ 
+  <Directory  "C:\Users\www\Proyecto">
+    Options Indexes FollowSymLinks MultiViews
+    AllowOverride all
+    Order allow,deny
+    Allow from all
+    Require all granted
+  </Directory>
+  
+  ServerName localhost.proyecto.site
+</VirtualHost>
+```
+
+Donde `localhost.proyecto.site` lo agregamos en el archivo `C:\Windows\System32\drivers\etc\hosts`, por ejemplo:
+
+```unixconfig
+# ...
+# localhost name resolution is handled within DNS itself.
+127.0.0.1       localhost localhost.proyecto.site
+# ...
+```
+
+Volvemos a `httpd.conf` y descomentamos:
+
+```apacheconf
+LoadModule access_compat_module modules/mod_access_compat.so
+```
+
+Y, por si un proyecto requiere la configuración mediante `.htaccess` activamos el siguiente módulo:
+
+```apacheconf
+LoadModule rewrite_module modules/mod_rewrite.so
+```
+
+Reiniciamos el servicio de Apache y probamos
+
 ## PHP
 
 Igual que apache, descargamos los binarios
 https://windows.php.net/download#php-8.1, lo descomprimimos, cambiamos el 
-nombre de la carpeta descompimida a `php` y cambiamos la dirección de la 
+nombre de la carpeta descomprimida a `php` y cambiamos la dirección de la 
 carpeta en `C:\Program Files\`. Agregamos `C:\Program Files\php` a la variable 
 `PATH` del sistema (reiniciamos).
 
+En `C:\Program Files\php` renombramos `php.ini-development` a `php.ini`.
+
+En el archivo de configuración de apache `C:\Program Files\Apache24\conf\httpf.conf`, 
+al final de donde cargamos los módulos o al final del archivo agregamos las instalación
+de PHP.
+
+```apacheconf
+LoadModule php_module "C:/Program Files/php/php8apache2_4.dll"
+
+PHPIniDir "C:/Program Files/php"
+
+AddType application/x-httpd-php .php .html .htm
+```
+
+Reiniciamos servicio de Apache
+
+Como administrador creamos un archivo en `C:\Program Files\Apache24\htdocs\phpinfo.php`
+con el siguiente contenido:
+
+```php
+<?php
+phpinfo();
+```
+
+En un navegador abrimos http://localhost/phpinfo.php y veremos toda la configuración de nuestro PHP
+
 ## MariaDB o MySQL
 
-Para windows usaremos `MySQL`, aunque tambien podemos usar `MariaDB` sin
+Para windows usaremos `MySQL`, aunque también podemos usar `MariaDB` sin
 problema alguno.
 
 En la interfaz del instalador seleccionamos el paquete *Server Only*, Dejamos 
 las configuración por defecto con una contraseña para desarrollo y para las 
-demas opciones damos continuar.
+demás opciones damos continuar.
 
-Se nos instalará un programa para ingresar a la base de datos `MySQL 8.0 Command Line Client` con ella crearemos nuestros usuarios y administraremos sus permisos, para el resto de tareas como la creacion de tablas, bien podemos seguir la línea de comandos ó una herramienta como [DataGrip](https://www.jetbrains.com/datagrip/) o [Dbeaver](https://dbeaver.io).
+Se nos instalará un programa para ingresar a la base de datos 
+`MySQL 8.0 Command Line Client` con ella crearemos nuestros usuarios y 
+administraremos sus permisos, para el resto de tareas como la creación de 
+tablas, bien podemos seguir la línea de comandos ó una herramienta 
+como [DataGrip](https://www.jetbrains.com/datagrip/) o [Dbeaver](https://dbeaver.io).

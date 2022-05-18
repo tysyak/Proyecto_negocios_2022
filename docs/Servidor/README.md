@@ -79,6 +79,32 @@ nombre de la carpeta descompimida a `php` y cambiamos la dirección de la
 carpeta en `C:\Program Files\`. Agregamos `C:\Program Files\php` a la variable 
 `PATH` del sistema (reiniciamos).
 
+En `C:\Progeam Files\php` renombramos `php.ini-development` a `php.ini`.
+
+En el achivo de configuración de apache `C:\Program Files\Apache24\conf\httpf.conf`, 
+al final de donde cargamos los módulos o al final del archivo agregamos las instalación
+de PHP.
+
+```apacheconf
+LoadModule php_module "C:/Program Files/php/php8apache2_4.dll"
+
+PHPIniDir "C:/Program Files/php"
+
+AddType application/x-httpd-php .php .html .htm
+```
+
+Reiniciamos servicio de Apache
+
+Como administrador creamos un archivo en `C:\Program Files\Apache24\htdocs\phpinfo.php`
+con el siguiente contenido:
+
+```php
+<?php
+phpinfo();
+```
+
+En un navegador abrimos http://localhost/phpinfo.php y veeremos toda la configuración de nuestro PHP
+
 ## MariaDB o MySQL
 
 Para windows usaremos `MySQL`, aunque tambien podemos usar `MariaDB` sin
@@ -88,4 +114,8 @@ En la interfaz del instalador seleccionamos el paquete *Server Only*, Dejamos
 las configuración por defecto con una contraseña para desarrollo y para las 
 demas opciones damos continuar.
 
-Se nos instalará un programa para ingresar a la base de datos `MySQL 8.0 Command Line Client` con ella crearemos nuestros usuarios y administraremos sus permisos, para el resto de tareas como la creacion de tablas, bien podemos seguir la línea de comandos ó una herramienta como [DataGrip](https://www.jetbrains.com/datagrip/) o [Dbeaver](https://dbeaver.io).
+Se nos instalará un programa para ingresar a la base de datos 
+`MySQL 8.0 Command Line Client` con ella crearemos nuestros usuarios y 
+administraremos sus permisos, para el resto de tareas como la creacion de 
+tablas, bien podemos seguir la línea de comandos ó una herramienta 
+como [DataGrip](https://www.jetbrains.com/datagrip/) o [Dbeaver](https://dbeaver.io).

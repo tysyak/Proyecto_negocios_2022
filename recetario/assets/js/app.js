@@ -1,3 +1,7 @@
+if (window.location.pathname !== '/') {
+    document.getElementById('listar_recetas').hidden = true;
+}
+
 async function listar_receta() {
     await fetch('api/receta',{
         "method": "GET",
@@ -6,12 +10,12 @@ async function listar_receta() {
         .then((resp_text)=> {
             let html = '';
             resp_text.forEach((recipe) => {
-                html += "<h3>";
+                html += "<hr><h3>";
                 html += recipe.id + ' - ' + recipe.titulo;
                 html += "</h3>";
                 html += "<ul>";
                 recipe.materiales.forEach((material) => {
-                    html += "<li>"+material.descripcion+"</li>";
+                    html += `<li>${material.descripcion}</li>`;
                 });
                 html += "</ul>";
                 recipe.pasos.forEach((paso) => {
@@ -22,6 +26,17 @@ async function listar_receta() {
 
         }).catch((error)=>console.error(error));
 }
+
+async function subir_receta(metodo, form) {
+    const body = new FormData(form);
+    const init = metodo === 'PUT' ? {
+        // TODO
+
+    } : {
+        // TODO
+    };
+}
+
 function exec_fun(fun, params) {
     switch (fun) {
         case 'edit_form_recipe': edit_form_recipe(params); break;
@@ -56,18 +71,43 @@ document.body.addEventListener("submit", async function (event) {
 });
 
 async function edit_form_recipe(params){
-    console.log(params.titulo);
-    document.getElementById('ed_id_receta').value = params.id;
-    document.getElementById('ed_titulo').value = params.titulo;
+    console.log(params);
+    document.getElementById('id_receta').value = params.id;
+    document.getElementById('titulo').value = params.titulo;
     let html = '';
     params.materiales.forEach((elem) => {
-        paso_id = 'id_receta='+params.id+'&id_paso='+elem.id_material
-        html += '<input type="text" name="'+paso_id+'" id="'+paso_id+'"' +
-            'value="'+elem.descripcion+'">';
+        paso_id = 'pasos[]';
+        html += `<input type="text" name="${paso_id}" id="${paso_id}"value="${elem.descripcion}">`;
+        html += '<br>';
     })
-    document.getElementById('ed_materiales').innerHTML = html;
-    document.getElementById('ed_receta').disabled=false;
-
-
+    document.getElementById('materiales').innerHTML = html;
+    document.getElementById('new_receta').disabled=false;
 }
 
+function agregar_material(){
+    const materiales = document.getElementById("materiales");
+    let html = document.createElement('input');
+    html.type = 'text';
+    html.name = 'pasos[]';
+    html.id = 'pasos[]';
+    html.required = true;
+    materiales.appendChild(document.createElement('br'));
+    materiales.appendChild(html);
+}
+
+function eliminar_material(){
+    const materiales = document.getElementById("materiales");
+    materiales.removeChild(materiales.lastChild);
+    materiales.removeChild(materiales.lastChild);
+}
+
+function preview_image(event)
+{
+    const reader = new FileReader();
+    reader.onload = function()
+    {
+        const output = document.getElementById('image');
+        output.src = reader.result;
+    }
+    reader.readAsDataURL(event.target.files[0]);
+}

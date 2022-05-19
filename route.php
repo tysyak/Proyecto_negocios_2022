@@ -24,12 +24,15 @@ $router->get('/receta/editar', function ($params) use ($router){
     $datos = RecetaController::get_receta();
     $router->render('form_edit_recipe', (array)$datos);
 });
+$router->get('/receta/nueva', function ($params) use ($router){
+    $router->render('form_new_recipe');
+});
 
  $router->post('/api/receta/nuevo', function ($params) {
 
  });
 
-$router->post('/api/receta/editar', function ($params) {
+$router->put('/api/receta/editar', function ($params) {
 
 });
 

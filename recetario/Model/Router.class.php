@@ -92,7 +92,7 @@ class Router
         }
 
         call_user_func_array($callback, [
-            array_merge($_GET, $_POST)
+            array_merge($_GET, $_POST, $_FILES)
         ]);
     }
 

@@ -1,0 +1,1 @@
+<form method="post" action="api/receta/nuevo"></form>

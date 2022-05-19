@@ -32,8 +32,15 @@ $router->get('/receta/nueva', function ($params) use ($router){
 
  });
 
-$router->put('/api/receta/editar', function ($params) {
-
+$router->post('/api/receta/editar', function ($params) {
+    $id_receta = (int) $params['id_receta'];
+    $titulo = $params['titulo'];
+    $pasos = $params['pasos'];
+    $materiales = $params['materiales'];
+    $borrar_imagen = isset($params['borrar_imagen']);
+    $image = !$borrar_imagen ? $params['prev_image'] : null;
+    RecetaController
+        ::update_receta($id_receta,$titulo,$pasos,$materiales,$image, $borrar_imagen);
 });
 
 $router->get('/about', function () use ($router) {

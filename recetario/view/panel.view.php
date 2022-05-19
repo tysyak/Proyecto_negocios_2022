@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="<?= '/recetario/assets/css/app.css'?>">
+    <link rel="stylesheet" href="/recetario/assets/css/app.css">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tasty Recipes</title>
@@ -67,4 +67,5 @@
 
 </body>
 <script src="/recetario/assets/js/app.js" type="application/javascript" ></script>
+
 </html>

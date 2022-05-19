@@ -11,38 +11,28 @@
 <body>
 
 <header>
-    <div class="logo">
-        TR
-    </div>
-    <input type="checkbox" class="toggle" id="nav-toggle">
-    <label for="nav-toggle" id="nav-toggle-label">
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-    </label>
-    <nav class="navbar" role="navigation" aria-label="main navigation">
-        <div id="navbarBasicExample" class="navbar-menu">
-            <div class="navbar-start">
-                <a class="navbar-item" href="/">
-                    Home
-                </a>
-
-                <a class="navbar-item" href="/contacto">Contacto</a>
+    <nav>
+        <div class="links">
+            <?php if ($_SERVER['REQUEST_URI']=='/'):?>
+                <?php $home = '#';?>
+            <?php else: ?>
+                <?php $home = '/';?>
+            <?php endif;?>
+            <a href="<?= $home ?>">Inicio</a>
+            <a href="/receta/editar">Editar Recetas</a>
+            <a href="/receta/nueva">Nueva Receta</a>
         </div>
-        <ul>
-            <li>
-                <a href="/">Inicio</a>
-            </li>
-            <li>
-                <a href="#">Contacto</a>
-            </li>
-        </ul>
     </nav>
 </header>
 
 
 <main>
-    <div id="app"><?= $view ?></div>
+    <div id="app">
+        <?php if (isset($view)): ?>
+            <?php include_once $view; ?>
+        <?php endif; ?>
+    </div>
+    <button id="listar_recetas" type="button" onclick="listar_receta()">Listar Recetas</button>
 </main>
 <div class="card">
     <header class="card-header">
@@ -70,6 +60,10 @@
     </footer>
 </div>
 
+<footer>
+    <p>Author: Hege Refsnes<br>
+        <a href="mailto:hege@example.com">hege@example.com</a></p>
+</footer>
 
 </body>
 <script src="/recetario/assets/js/app.js" type="application/javascript" ></script>

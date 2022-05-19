@@ -45,7 +45,7 @@ Por
 Define SRVROOT "C:/Program Files/Apache24"
 ```
 
-Agremamos la carpeta `C:\Program Files\Apache24\bin` a la variable `PATH` del 
+Agregamos la carpeta `C:\Program Files\Apache24\bin` a la variable `PATH` del 
 sistema (reiniciamos).
 
 Abrimos una terminal con permisos administrativos, en este caso usaremos 
@@ -137,7 +137,7 @@ carpeta en `C:\Program Files\`. Agregamos `C:\Program Files\php` a la variable
 
 En `C:\Program Files\php` renombramos `php.ini-development` a `php.ini`.
 
-En el archivo de configuración de apache `C:\Program Files\Apache24\conf\httpf.conf`, 
+En el archivo de configuración de apache `C:\Program Files\Apache24\conf\httpd.conf`, 
 al final de donde cargamos los módulos o al final del archivo agregamos las instalación
 de PHP.
 

@@ -42,7 +42,12 @@
 
 
 <main>
-    <div id="app"><?= $view ?></div>
+    <div id="app">
+        <?php if (isset($view)): ?>
+            <?php include_once $view; ?>
+        <?php endif; ?>
+    </div>
+    <button id="listar_recetas" type="button" onclick="listar_receta()">Listar Recetas</button>
 </main>
 <div class="card">
     <header class="card-header">

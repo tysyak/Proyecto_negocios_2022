@@ -8,6 +8,9 @@ class Router
     private $not_found_handler;
     private const METHOD_POST = 'POST';
     private const  METHOD_GET = 'GET';
+    private const  METHOD_PUT = 'PUT';
+    private const  METHOD_DELETE = 'DELETE';
+
     private const VIEW_PATH = PATH.'/recetario/view/';
 
     public function get(string $path, $handler): void
@@ -19,6 +22,16 @@ class Router
     public function post(string $path, $handler): void
     {
         $this->add_handler(self::METHOD_POST ,$path, $handler);
+    }
+
+    public function put(string $path, $handler): void
+    {
+        $this->add_handler(self::METHOD_PUT ,$path, $handler);
+    }
+
+    public function delete(string $path, $handler): void
+    {
+        $this->add_handler(self::METHOD_DELETE ,$path, $handler);
     }
 
     private function add_handler(string $method, string $path, $handler) : void
@@ -37,8 +50,10 @@ class Router
 
     public function render(string $view, array $data=[]): void
     {
+        header('Content-Type: text/html');
+
         if ($view != 'panel') {
-            $view = file_get_contents(self::VIEW_PATH . '/'.$view.'.'.'view.php');
+            $view = self::VIEW_PATH . '/'.$view.'.'.'view.php';
         } else {
             $view=null;
         }

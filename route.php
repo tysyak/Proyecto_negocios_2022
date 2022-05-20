@@ -11,17 +11,17 @@ $router->get('/', function () use ($router) {
 
 // Ejemplo con parametros en GEt
  $router->get('/api/receta', function ($params) {
-     $id = $params['id'] ?? null;
-     RecetaController::get_receta($id, RecetaController::JSON_MODE);
+     RecetaController::get_receta_json($params['id'] ?? null);
  });
 
 $router->get('/api/receta/titulo', function ($params) {
     $titulo = $params['titulo'] ?? null;
-    RecetaController::get_id_receta_by_title($titulo, RecetaController::JSON_MODE);
+    RecetaController::get_id_receta_by_title($titulo);
 });
 
 $router->get('/receta/editar', function ($params) use ($router){
     $datos = RecetaController::get_receta();
+
     $router->render('form_edit_recipe', (array)$datos);
 });
 $router->get('/receta/nueva', function ($params) use ($router){

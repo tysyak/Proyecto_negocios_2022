@@ -1,10 +1,11 @@
 body {
     margin: 0;
     font-family: 'Lato', sans-serif;
+    text-align: center;
 }
 
 img {
-    max-width: 70%;
+    max-width: 50%;
     height: auto;
 }
 
@@ -82,6 +83,7 @@ footer {
     padding: 1.0em;
     text-align: center;
     background-color: #FFDFB9;
+    text-align: center;
 }
 
 footer a {
@@ -93,12 +95,16 @@ footer .heart {
     color: #DC143C;
 }
 
+header {
+    text-align: center;
+}
 /* Cards */
 
 .card {
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     transition: 0.3s;
-    width: 40%;
+    width: 80%;
+    text-align: center;
 }
 
 .card:hover {
@@ -107,4 +113,42 @@ footer .heart {
 
 .container {
     padding: 2px 16px;
+}
+
+ul {
+    text-align: left;
+}
+
+/* buttons */
+
+.btn {
+    background-color: #f7cd99;
+    border: none;
+    color: black;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.btn-danger {
+    background-color: #BB2D3B;
+    color: white;
+}
+
+/* forms */
+input[type="text"] {
+    border: 1px solid #f7cd99;
+    font-size: 16px;
+    padding: 5px;
+    width: 30%;
+}
+
+textarea{
+    border: 1px solid #f7cd99;
+    font-size: 16px;
+    padding: 5px;
 }

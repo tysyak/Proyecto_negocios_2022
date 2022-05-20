@@ -3,6 +3,7 @@ namespace Model;
 
 use PDO;
 use PDOException;
+use stdClass;
 
 class Receta
 {
@@ -57,22 +58,27 @@ class Receta
 
     public function get_all(int $limit=null, int$offset=null)
     {
+        $this->pasos = [];
         $query = 'SELECT id, titulo, imagen FROM receta order by id desc';
         $query .= is_null($limit) ? '' : " limit $limit";
         $query .= is_null($offset) ? '' : " offset $offset";
         $stmt = $this->db->prepare($query);
         $stmt->execute();
+
         $resp = $stmt->fetchAll(PDO::FETCH_ASSOC);
         if (!is_null($resp)) {
             foreach ($resp as $receta) {
-                $tmp = new \stdClass();
+                $tmp = new stdClass();
                 $tmp->id = $receta['id'];
                 $tmp->titulo = $receta['titulo'];
                 $tmp->imagen = $receta['imagen'] ?? null;
+                if (!is_null($tmp->imagen)) {
+                    $tmp->imagen = base64_encode($tmp->imagen);
+                }
                 $this->get_receta_materiales($tmp->id);
                 $tmp->materiales = $this->materiales;
                 $tmp->pasos = $this->pasos;
-                $this->manny[] = $tmp;
+                $this->manny[] = (array)$tmp;
             }
         }
         return $this->manny;

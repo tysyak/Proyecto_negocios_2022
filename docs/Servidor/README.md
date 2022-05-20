@@ -1,10 +1,15 @@
 # Configuración del servidor
 
+## Índice
+
 * [Apache](#apache)
+  * [VirtualHosts](#virtualhosts)
 * [PHP](#php)
 * [MariaDB o MySQL](#mariadb-o-mysql)
 
-Para configurar una pila Windows Apache Php y MySQL/MariaDB se seleccionó el siguiente software:
+## Requerimientos
+
+Para configurar una pila Windows Apache PHP y MySQL/MariaDB se seleccionó el siguiente software:
 
 + [Apache Haus 2.4](https://www.apachehaus.com/cgi-bin/download.plx)
 + [PHP 8](https://windows.php.net/download#php-8.1)

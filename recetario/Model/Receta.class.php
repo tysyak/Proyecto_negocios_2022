@@ -3,6 +3,7 @@ namespace Model;
 
 use PDO;
 use PDOException;
+use stdClass;
 
 class Receta
 {
@@ -25,12 +26,14 @@ class Receta
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
-        $resp = $stmt->fetch();
-
+        $resp = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($resp) {
-            $this->id = $resp[0];
-            $this->titulo = $resp[1];
-            $this->image = $resp[3] ?? null;
+            $this->id = $resp['id'];
+            $this->titulo = $resp['titulo'];
+            $this->image = $resp['imagen'] ?? null;
+            if (!is_null($this->image)) {
+                $this->image = base64_encode($this->image);
+            }
             $this->get_receta_materiales($this->id);
         }
         $this->manny = [];
@@ -55,22 +58,27 @@ class Receta
 
     public function get_all(int $limit=null, int$offset=null)
     {
+        $this->pasos = [];
         $query = 'SELECT id, titulo, imagen FROM receta order by id desc';
         $query .= is_null($limit) ? '' : " limit $limit";
         $query .= is_null($offset) ? '' : " offset $offset";
         $stmt = $this->db->prepare($query);
         $stmt->execute();
+
         $resp = $stmt->fetchAll(PDO::FETCH_ASSOC);
         if (!is_null($resp)) {
             foreach ($resp as $receta) {
-                $tmp = new \stdClass();
+                $tmp = new stdClass();
                 $tmp->id = $receta['id'];
                 $tmp->titulo = $receta['titulo'];
                 $tmp->imagen = $receta['imagen'] ?? null;
+                if (!is_null($tmp->imagen)) {
+                    $tmp->imagen = base64_encode($tmp->imagen);
+                }
                 $this->get_receta_materiales($tmp->id);
                 $tmp->materiales = $this->materiales;
                 $tmp->pasos = $this->pasos;
-                $this->manny[] = $tmp;
+                $this->manny[] = (array)$tmp;
             }
         }
         return $this->manny;
@@ -81,8 +89,60 @@ class Receta
         $query = "UPDATE receta SET imagen=:bin WHERE id=:id";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':id', $id,PDO::PARAM_INT);
-        $stmt->bindParam(':bin', $bin, PDO::PARAM_LOB);
+        if (is_null($bin)) {
+            $stmt->bindParam(':bin', $bin, PDO::PARAM_NULL);
+        } else {
+            $stmt->bindParam(':bin', $bin, PDO::PARAM_LOB);
+        }
         $stmt->execute();
+    }
+
+    public function set_titulo(int $id, string $titulo)
+    {
+        $query = "UPDATE receta SET titulo = :titulo WHERE id=:id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':id', $id,PDO::PARAM_INT);
+        $stmt->bindParam(':titulo', $titulo);
+        $stmt->execute();
+    }
+
+    public function set_paso(int $id_receta, int $id_paso, string $descripcion)
+    {
+        $query = "INSERT INTO receta_pasos(id_receta, id_paso, descripcion, tipo)
+                  VALUES(:id_receta, :id_paso, :descripcion, default)";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':id_paso', $id_paso,PDO::PARAM_INT);
+        $stmt->bindParam(':id_receta', $id_receta,PDO::PARAM_INT);
+        $stmt->bindParam(':descripcion', $descripcion);
+        $stmt->execute();
+    }
+    public function delete_pasos_receta(int $id_receta){
+        $query = 'DELETE FROM receta_pasos
+                  WHERE id_receta=:id_receta';
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':id_receta', $id_receta,PDO::PARAM_INT);
+        $stmt->execute();
+
+    }
+
+    public function set_material(int $id_receta, int $id_material, string $descripcion)
+    {
+        $query = "INSERT INTO receta_materiales(id_receta, id_material, descripcion)
+                  VALUES(:id_receta, :id_material, :descripcion)";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':id_material', $id_material,PDO::PARAM_INT);
+        $stmt->bindParam(':id_receta', $id_receta,PDO::PARAM_INT);
+        $stmt->bindParam(':descripcion', $descripcion);
+        $stmt->execute();
+    }
+
+    public function delete_materiales_receta(int $id_receta){
+        $query = 'DELETE FROM receta_materiales
+                  WHERE id_receta = :id_receta';
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':id_receta', $id_receta,PDO::PARAM_INT);
+        $stmt->execute();
+
     }
 
     public function new_receta(string $titulo, string $descripcion, array $pasos, array $materiales, $blob_imagen=null)
@@ -135,7 +195,7 @@ class Receta
 
     private function get_receta_materiales(int $id_receta): void
     {
-        $query = 'SELECT id_material,descripcion FROM receta_materiales where id_receta = :id_receta order by id_material desc';
+        $query = 'SELECT id_material,descripcion FROM receta_materiales where id_receta = :id_receta order by id_material asc';
         $stmt = $this->db->prepare($query);
 
         $stmt->bindParam(':id_receta', $id_receta, PDO::PARAM_INT);
@@ -152,7 +212,7 @@ class Receta
 
     private function get_receta_pasos(int $id_receta): void
     {
-        $query = 'SELECT id_paso, descripcion FROM receta_pasos where id_receta = :id_receta order by id_paso desc';
+        $query = 'SELECT id_paso, descripcion FROM receta_pasos where id_receta = :id_receta order by id_paso asc';
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':id_receta', $id_receta, PDO::PARAM_INT);
 
@@ -163,6 +223,13 @@ class Receta
         }
     }
 
+    /**
+     * @param array $pasos
+     */
+    public function set_pasos(int $id_receta, array $pasos): void
+    {
+        $this->pasos = $pasos;
+    }
 
 
 }

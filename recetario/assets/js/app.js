@@ -3,13 +3,31 @@ if (window.location.pathname !== '/') {
 }
 
 async function listar_receta() {
+    let html;
     let response = await fetch('api/receta',{
         "method": "GET",
         "headers": {'Content-Type': 'application/json'}
-    });
+    }).then(response => response.json())
+        .catch(error => console.error('Error:', error))
+        .then(response => {
+             html = '<div class="card">';
+             response.forEach((receta) => {
+                 html += '<img alt="'+ receta.titulo +'" id="image-'+receta.id+'"' +
+                     ' src="data:image/png;base64,'+ receta.imagen +
+                     '" style="width:100%">';
+                 html += '<div class="container">';
+                 html += '<h4><b>'+receta.titulo+'</b></h4>';
+                 html += '<ul>';
+                 receta.materiales.forEach((material => {
+                     html += '<li>'+ material.descripcion +'</li>';
+                 }))
+                 html += '</ul>';
+                 html += '</div>';
+             });
+             html += '</div>';
+        });
 
-    const resp = await response;
-    console.log(resp.json())
+    document.getElementById('app').innerHTML = html;
 }
 
 function exec_fun(fun, params) {

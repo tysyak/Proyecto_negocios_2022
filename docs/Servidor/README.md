@@ -163,8 +163,34 @@ con el siguiente contenido:
 <?php
 phpinfo();
 ```
-
 En un navegador abrimos http://localhost/phpinfo.php y veremos toda la configuración de nuestro PHP
+
+### Activar Extenciones
+
+Para activar las extenciones, debemo editar el archivo `php.ini`.
+
+Definimos la carpeta donde se ubican las extenciones de nuestra instalación:
+
+Editamos la línea donde dice `;extencion_dir: ...` y la cambiamos por:
+
+```
+extension_dir = "C:\Program Files\php\ext"
+```
+
+Luego podemos activar las extenciones que nosotros querramos, por ejemplo, para activar los controladores
+de mysql buscamos y descomentamos:
+
+```
+extension=mysqli
+```
+
+Para mysql pero usando PDO descomentamos:
+
+```
+extension=pdo_mysql
+```
+Reinciamos el servicio de Apache, en http://localhost/phpinfo.php y veremos las extenciones que estan activas 
+
 
 ## MariaDB o MySQL
 

@@ -5,6 +5,7 @@
 * [Apache](#apache)
   * [VirtualHosts](#virtualhosts)
 * [PHP](#php)
+  + [Activar Extensiones](#activar-extensiones)
 * [MariaDB o MySQL](#mariadb-o-mysql)
 
 ## Requerimientos
@@ -165,11 +166,11 @@ phpinfo();
 ```
 En un navegador abrimos http://localhost/phpinfo.php y veremos toda la configuración de nuestro PHP
 
-### Activar Extenciones
+### Activar Extensiones
 
-Para activar las extenciones, debemo editar el archivo `php.ini`.
+Para activar las extensiones, debemos editar el archivo `php.ini`.
 
-Definimos la carpeta donde se ubican las extenciones de nuestra instalación:
+Definimos la carpeta donde se ubican las extensiones de nuestra instalación:
 
 Editamos la línea donde dice `;extencion_dir: ...` y la cambiamos por:
 
@@ -177,7 +178,7 @@ Editamos la línea donde dice `;extencion_dir: ...` y la cambiamos por:
 extension_dir = "C:\Program Files\php\ext"
 ```
 
-Luego podemos activar las extenciones que nosotros querramos, por ejemplo, para activar los controladores
+Luego podemos activar las extensiones que nosotros queramos, por ejemplo, para activar los controladores
 de mysql buscamos y descomentamos:
 
 ```
@@ -189,7 +190,7 @@ Para mysql pero usando PDO descomentamos:
 ```
 extension=pdo_mysql
 ```
-Reinciamos el servicio de Apache, en http://localhost/phpinfo.php y veremos las extenciones que estan activas 
+Reiniciamos el servicio de Apache, en http://localhost/phpinfo.php y veremos las extensiones que están activas 
 
 
 ## MariaDB o MySQL

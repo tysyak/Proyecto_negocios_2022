@@ -8,8 +8,8 @@
     <br>
     <img alt="your image" id="image" />
     <br><br>
-    <button type="button" onclick="agregar_material()">Agregar Material</button>
-    <button type="button" onclick="eliminar_material()">Eliminar Material</button>
+    <button class="btn" type="button" onclick="agregar_material()">Agregar Material</button>
+    <button class="btn btn-danger" type="button" onclick="eliminar_material()">Eliminar Material</button>
     <br>
     <label for="pasos[]">Pasos:</label>
     <div id="materiales">
@@ -20,5 +20,5 @@
     <label for="descripcion">Descripción</label><br>
     <textarea name="descripcion" id="descripcion" rows="4" cols="50"></textarea>
     <br>
-    <button type="submit" id="nueva_receta">Crear Receta</button>
+    <button class="btn" type="submit" id="nueva_receta">Crear Receta</button>
 </form>

@@ -174,20 +174,20 @@ Definimos la carpeta donde se ubican las extensiones de nuestra instalación:
 
 Editamos la línea donde dice `;extencion_dir: ...` y la cambiamos por:
 
-```
+```ini
 extension_dir = "C:\Program Files\php\ext"
 ```
 
 Luego podemos activar las extensiones que nosotros queramos, por ejemplo, para activar los controladores
 de mysql buscamos y descomentamos:
 
-```
+```ini
 extension=mysqli
 ```
 
 Para mysql pero usando PDO descomentamos:
 
-```
+```ini
 extension=pdo_mysql
 ```
 Reiniciamos el servicio de Apache, en http://localhost/phpinfo.php y veremos las extensiones que están activas 

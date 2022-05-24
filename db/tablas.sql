@@ -1,4 +1,4 @@
-create or replace table usuario (
+create table usuario (
   id serial primary key,
   username varchar(32) unique,
   creation_time timestamp default CURRENT_TIMESTAMP(),
@@ -7,25 +7,30 @@ create or replace table usuario (
 );
 
 
-create or replace table datos_usuario (
+create table datos_usuario (
   username varchar(32) primary key references usuario(username),
   nombre varchar(32) not null,
   apellido_paterno varchar(32) not null,
   apellido_materno varchar(32) null,
-  fecha_nacimiento date not null,
+  fecha_nacimiento date null,
   estatura int default 0, -- centimetros enteros
   peso decimal(5,2) default 0.0,
   modification_time timestamp default CURRENT_TIMESTAMP()
     ON UPDATE current_timestamp()
 );
 
-create or replace table receta (
+create table usuario_password(
+    usuario varchar(32) primary key  references usuario(username) ,
+    password varchar(255) not null
+);
+
+create table receta (
   id serial primary key,
   imagen longblob null,
   titulo varchar(32) not null unique
 );
 
-create or replace table receta_pasos_tipo_catalogo(
+create table receta_pasos_tipo_catalogo(
   tipo char(1) primary key,
   descripcion varchar(50) not null
 );
@@ -35,7 +40,7 @@ values('P', 'Pasos de la Receta');
 INSERT into receta_pasos_tipo_catalogo(tipo, descripcion)
 values('M', 'Materiales e ingredientes de la receta');
 
-create or replace table receta_pasos (
+create table receta_pasos (
   id_receta bigint(20) unsigned references receta(id),
   id_paso int unsigned not null,
   descripcion text not null,
@@ -43,7 +48,7 @@ create or replace table receta_pasos (
  primary key(id_receta, id_paso)
 );
 
-create or replace table receta_materiales (
+create table receta_materiales (
   id_receta bigint(20) unsigned references receta(id),
   id_material int unsigned not null,
   descripcion text not null,

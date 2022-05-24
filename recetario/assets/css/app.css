@@ -22,7 +22,10 @@ nav {
     padding: 1.5rem 2rem;
     background-color: #FFDFB9;
     transition: top 500ms ease-in-out;
+    overflow: hidden;
+
 }
+
 hr {
     position: sticky;
     top: 0;
@@ -49,6 +52,7 @@ nav.scroll-down {
 .links a {
     display: inline-block;
     margin: 0 1em;
+    float: left;
 }
 
 .logo {
@@ -83,7 +87,6 @@ footer {
     padding: 1.0em;
     text-align: center;
     background-color: #FFDFB9;
-    text-align: center;
 }
 
 footer a {
@@ -102,9 +105,11 @@ header {
 
 .card {
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    transition: 0.3s;
-    width: 80%;
+    margin: 50px auto;
+    width: 350px;
+    transition: .25s ease;
     text-align: center;
+
 }
 
 .card:hover {

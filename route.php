@@ -26,13 +26,13 @@ $router->add_not_found_handler(function () use ($router) {
     $router->render('404');
 });
 
-$router->get('/receta/editar', function ($params) use ($router){
+$router->get('/receta/editar', function () use ($router){
     $datos = RecetaController::get_receta();
 
     $router->render('form_edit_recipe', (array)$datos);
 });
 
-$router->get('/receta/nueva', function ($params) use ($router){
+$router->get('/receta/nueva', function () use ($router){
     $router->render('form_new_recipe');
 });
 

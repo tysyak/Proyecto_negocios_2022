@@ -3,13 +3,13 @@
 ?>
 <form name='cargar_receta_editar' id='cargar_receta_editar' method="GET" action="/api/receta"
       function="edit_form_recipe">
-    <label for="id_receta_to_edit">Selecciones una receta:</label>
+    <h3><label for="id_receta_to_edit">Seleccione una receta:</label></h3><br>
     <select name="id_receta_to_edit" id="id_receta_to_edit" >
         <?php foreach ($data as $recetas ): ?>
         <option value="<?= $recetas['id'] ?>"><?= $recetas['titulo'] ?></option>
         <?php endforeach;?>
     </select>
-    <button type="submit">Obtener receta</button>
+    <button class="btn" type="submit">Obtener receta</button>
 </form>
 
 <hr>
@@ -17,18 +17,18 @@
       function="edit_recipe">
     <input type="hidden" id="id_receta" name="id_receta" value=""><br><br>
 
-    <label for="titulo">Titulo:</label>
-    <input type="text" id="titulo" name="titulo"><br><br>
+    <label for="titulo" >Titulo:</label>
+    <input type="text" id="titulo" name="titulo" autocomplete="off"><br><br>
     <br><br>
 
 
     <label for="borrar_imagen">Borrar imagen: </label>
-    <input type="checkbox" name="borrar_imagen" id="borrar_imagen">
+    <input accept="image/png" type="checkbox" name="borrar_imagen" id="borrar_imagen">
     <br><br>
 
     <label for="image">Imagen:</label><br>
     <br>
-    <img alt="your image" id="image" />
+    <img alt="your image" id="image" src="/recetario/assets/img/food_default.png" />
     <br>
     <input accept="image/*" type='file' name="prev_image" id="prev_image" onchange="preview_image(event)" />
     <br><br>
@@ -39,7 +39,7 @@
     <br>
 
     <label for="pasos[]">Descripción</label><br>
-    <textarea name="pasos[]" id="pasos[]" rows="4" cols="50"></textarea>
+    <textarea name="pasos[]" id="pasos[]" rows="4" cols="50" autocomplete="off"></textarea>
     <br>
-    <button type="submit" id="new_receta" disabled>Cambiar</button>
+    <button class="btn btn-success" type="submit" id="new_receta" disabled>Cambiar</button>
 </form>

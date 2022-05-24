@@ -25,13 +25,20 @@ function val_path($path): string
 <body>
 
     <header>
-        <nav>
-            <div class="links">
-                <a href="<?= val_path('/') ?>"><img style="height: 1em; " src="/recetario/assets/img/logo.png"> Inicio</a>
-                <a href="<?= val_path('/receta/editar') ?>">Editar Recetas</a>
-                <a href="<?= val_path('/receta/nueva') ?>">Nueva Receta</a>
-                <a class="badge" href="<?= val_path('/login') ?>" style="float: right;">Acceder</a>
+        <nav class="navbar">
+            <div class="title"><a class="nav-link" href="<?= val_path('/') ?>"><img style="height: 1em; " src="/recetario/assets/img/logo.png"> Inicio</a></div>
+
+            <div class="ham">
+                <span class="bar1"></span>
+                <span class="bar2"></span>
+                <span class="bar3"></span>
             </div>
+            <ul class="nav-sub">
+                <li class="list-item"><a class="links" href="<?= val_path('/receta/editar') ?>">Editar Recetas</a></li>
+                <li class="list-item"><a class="links" href="<?= val_path('/receta/nueva') ?>">Nueva Receta</a></li>
+                <li class="list-item"><a class="badge links" href="<?= val_path('/login') ?>" style="float: right;">Acceder</a></li>
+            </ul>
+
         </nav>
     </header>
 

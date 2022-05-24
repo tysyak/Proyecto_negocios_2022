@@ -1,10 +1,13 @@
+*{
+    margin:0;
+}
+
 html { font-size: 22px; }
 
 body {
     margin: 0;
     font-family: 'Lato', sans-serif;
     text-align: center;
-    padding: 1rem;
 }
 
 img {
@@ -16,18 +19,6 @@ img {
     box-sizing: border-box;
 }
 
-nav {
-    position: sticky;
-    top: 0;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    padding: 1.5rem 2rem;
-    background-color: #FFDFB9;
-    transition: top 500ms ease-in-out;
-    overflow: hidden;
-
-}
 
 hr {
     position: sticky;
@@ -37,39 +28,87 @@ hr {
     justify-content: space-between;
     transition: top 500ms ease-in-out;
 }
-
-nav.scroll-up,
-nav:focus-within {
-    top: 0;
+* {
+    margin: 0;
 }
 
-nav.scroll-down {
-    top: -100%;
+/*Properties for Nav-bar*/
+nav{
+    display:flex;
+    top:0;
+    height:10vh;
+    justify-content:space-between;
+    align-items:center;
+    padding:0 20px;
+    background: #FFDFB9;
+}
+.nav-sub{
+    display:flex;
+    justify-content:space-between;
+}
+.list-item {
+    padding:10px;
+    list-style:none;
+}
+.nav-link{
+    color:black;
+    text-decoration:none;
 }
 
 .links {
-    display: flex;
+    color:black;
     margin: 0 -1em;
+    text-decoration: none;
 }
 
 .links a {
-    display: inline-block;
     margin: 0 1em;
     float: left;
 }
 
-.logo {
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
+/*Properties for Hamburger*/
+.ham{
+    display:none;
+    padding:5px;
 }
 
-nav a {
-    color: #0f0f0f;
-    text-decoration: none;
-    font-size: 0.6rem;
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
+.bar1,.bar2,.bar3{
+    display:block;
+    width:35px;
+    height:3px;
+    margin:5px auto;
+    background-color: sandybrown;
+    transition: 0.4s;
+}
+@media only screen and (max-width:768px){
+    *{
+        overflow:hidden;
+    }
+    .nav-sub{
+        position:absolute;
+        top:10vh;
+        right:0;
+        flex-direction:column;
+        background-color:#FFDFB9;
+        border-radius:0 0 0 20px;
+        transition:transform 0.3s ease-in;
+        transform:translate(100%);
+    }
+    .nav-change{
+        transform:translate(0%);
+    }
+    .ham{
+        display:block;
+    }
+    .change .bar1 {
+        transform: rotate(45deg) translate(8px,3px);
+    }
+    .change .bar2 {
+        opacity: 0;
+    }
+    .change .bar3 {
+        transform: rotate(-45deg) translate(8px,-3px);
+    }
 }
 
 section {

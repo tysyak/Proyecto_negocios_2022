@@ -24,9 +24,29 @@ function val_path($path): string
 
 <body>
 
+<!--   El Modal   -->
+<div id="gen-modal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+        <div class="modal-header" id="modal-header" >
+            <span class="close-modal" onclick="ocultar_modal()">&times;</span>
+            <h2 >Modal Header</h2>
+        </div>
+        <div class="modal-body" id="modal-body">
+            <p>Some text in the Modal Body</p>
+            <p>Some other text...</p>
+        </div>
+        <div class="modal-footer" id="modal-footer">
+            <h3>Modal Footer</h3>
+        </div>
+    </div>
+
+</div>
+
     <header>
         <nav class="navbar">
-            <div class="title"><a class="nav-link" href="<?= val_path('/') ?>"><img style="height: 1em; " src="/recetario/assets/img/logo.png"> Inicio</a></div>
+            <div class="title"><a class="nav-link" href="<?= val_path('/') ?>"><img style="height: 1em; " src="/recetario/assets/img/logo.png" alt="logo"> Inicio</a></div>
 
             <div class="ham">
                 <span class="bar1"></span>

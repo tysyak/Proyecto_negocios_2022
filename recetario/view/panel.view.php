@@ -42,17 +42,21 @@ function val_path($path): string
                 <?php include_once $view; ?>
             <?php endif; ?>
         </div>
-        <button class='btn' id="listar_recetas" type="button" onclick="listar_receta()">Listar Recetas</button>
     </main>
 
 
     <footer>
-        <p>Author: Cristian Romero Andrade<br>
+        <a href="<?= val_path('/about') ?>">Acerca de</a>
+        <p>Autor: Cristian Romero Andrade<br>
             <a href="mailto:mascrit@gmail.com">mascrit@gmail.com</a>
         </p>
     </footer>
 
 </body>
 <script src="/recetario/assets/js/app.js" type="application/javascript"></script>
-
+<?php if ($_SERVER['REQUEST_URI'] == '/'): ?>
+    <script type="application/javascript">
+        listar_receta();
+    </script>
+<?php endif; ?>
 </html>

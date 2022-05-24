@@ -26,9 +26,9 @@ class RecetaController
 
         if (is_null($id)) {
             $recipe->get_all();
-            echo(json_encode($recipe->manny));
+            echo json_encode($recipe->manny);
         } else {
-            $recipe->get_receta((int)$id);
+            $recipe->get_receta($id);
             echo json_encode($recipe);
         }
     }
@@ -36,7 +36,8 @@ class RecetaController
     static function get_id_receta_by_title(string $title): void
     {
         $id = array(
-            'id' => (new Receta)->search_id_receta_by_title($title)
+            'id' => (new Receta)->search_id_receta_by_title($title),
+            'status' => 200
         );
         echo json_encode($id);
     }
@@ -93,5 +94,8 @@ class RecetaController
         }
         $recipe->set_titulo($id_receta, $title);
         self::get_receta("$id_receta");
+
+        echo json_encode(['status' => 200, 'titulo' => $title]);
+
     }
 }

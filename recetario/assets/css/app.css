@@ -1,7 +1,10 @@
+html { font-size: 22px; }
+
 body {
     margin: 0;
     font-family: 'Lato', sans-serif;
     text-align: center;
+    padding: 1rem;
 }
 
 img {
@@ -105,15 +108,26 @@ header {
 
 .card {
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    margin: 50px auto;
-    width: 350px;
+    margin: 100px auto;
+    width: 600px ;
     transition: .25s ease;
     text-align: center;
-
 }
 
-.card:hover {
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+.cards {
+    max-width: 3600px;
+    margin: auto;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+}
+
+.card-about {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    margin: 50px auto;
+    width:auto;
+    transition: .25s ease;
+    text-align: center;
 }
 
 .container {
@@ -122,6 +136,23 @@ header {
 
 ul {
     text-align: left;
+}
+
+a {
+    padding: 10px 20px;
+}
+.badge {
+    background-color: #FE8019;
+    border: 1px solid #ddd;
+    border-radius: .25em;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
 }
 
 /* buttons */

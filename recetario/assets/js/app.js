@@ -1,5 +1,5 @@
 async function listar_receta() {
-    let html = '';
+    let html = '<div class="cards">';
     let response = await fetch('api/receta',{
         "method": "GET",
         "headers": {'Content-Type': 'application/json'}
@@ -34,6 +34,7 @@ async function listar_receta() {
                  html += '</div>';
              });
              html += '</div>';
+            html += '</div>';
         });
 
     document.getElementById('app').innerHTML = html;

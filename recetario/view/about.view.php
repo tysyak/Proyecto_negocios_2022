@@ -1,4 +1,5 @@
-<div class="card">
+
+<div class="card-about">
 
 <div class="container">
     <h2>Misión</h2>

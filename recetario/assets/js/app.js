@@ -1,5 +1,64 @@
+// nav bar
+const hamburger = document.querySelector(".ham");
+const navsub = document.querySelector(".nav-sub");
+hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle("change")
+    navsub.classList.toggle("nav-change")
+});
+// fin nav bar
+
+// Modal
+// Get the modal
+let modal = document.getElementById("gen-modal");
+
+// Get the <span> element that closes the modal
+
+// When the user clicks on <span> (x), close the modal
+function mostrar_modal(cuerpo, titulo, pie, tipo='warn') {
+    let header = document.getElementById('modal-header');
+    let body = document.getElementById('modal-body');
+    let footer = document.getElementById('modal-footer');
+
+    let clase;
+    switch (tipo) {
+        case 'error' :
+            clase = 'modal-warn';
+            break;
+        case 'success':
+            clase = 'modal-success';
+            break;
+        default:
+            clase = 'modal-warn';
+            break
+    }
+
+    header.className = 'modal-header ' + clase;
+    footer.className = 'modal-footer ' + clase;
+
+    header.innerHTML = '<span class="close-modal" onclick="ocultar_modal()">&times;</span>' + `<h2>${titulo}</h2>`;
+    footer.innerHTML = `<h3>${pie}</h3>`
+    body.innerHTML = cuerpo;
+
+    header.innerHTML = '<span class="close-modal" onclick="ocultar_modal()">&times;</span>' + `<h2>${titulo}</h2>`
+
+    modal.style.display = "block";
+}
+
+function ocultar_modal() {
+    modal.style.display = "none";
+    return false
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target === modal) {
+        ocultar_modal();
+    }
+}
+
+// Fin de Modal
 async function listar_receta() {
-    let html = '';
+    let html = '<div class="cards">';
     let response = await fetch('api/receta',{
         "method": "GET",
         "headers": {'Content-Type': 'application/json'}
@@ -34,6 +93,7 @@ async function listar_receta() {
                  html += '</div>';
              });
              html += '</div>';
+            html += '</div>';
         });
 
     document.getElementById('app').innerHTML = html;
@@ -44,13 +104,25 @@ function exec_fun(fun, params) {
         case 'edit_form_recipe':
             edit_form_recipe(params); break;
         case 'edit_recipe':
-            alert(`Se cambio la receta "${params.titulo}"` ); break;
+            ocultar_modal();
+            mostrar_modal(`Se cambio la receta "${params.titulo}"`,
+                'Exito',
+                '',
+                'success'); break;
         default:
-            console.log(params);
             if (params.status === 200){
-                alert(`Acabas de crear la receta nombrada "${params.titulo}"`); break;
+                ocultar_modal();
+                mostrar_modal(
+                    `Acabas de crear la receta nombrada "${params.titulo}"`,
+                    'Exito',
+                    '',
+                    'success'); break;
             } else {
-                alert('Hubo un problema al crear la receta');
+                ocultar_modal();
+                mostrar_modal('Hubo un problema al crear la receta',
+                    'Error',
+                    '',
+                    'error');
             }
 
     }
@@ -81,6 +153,7 @@ document.body.addEventListener("submit", async function (event) {
                 "body": body
             }
     }
+    mostrar_modal('Espera un momento...','Cargando','');
     let response = await fetch(uri,init)
     let result = await response.json();
     await exec_fun(fun, result);
@@ -103,6 +176,7 @@ async function edit_form_recipe(params){
     })
     document.getElementById('materiales').innerHTML = html;
     document.getElementById('new_receta').disabled=false;
+    ocultar_modal();
 }
 
 function agregar_material(){

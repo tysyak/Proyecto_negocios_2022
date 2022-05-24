@@ -136,7 +136,7 @@ Reiniciamos el servicio de Apache y probamos
 ## PHP
 
 Igual que apache, descargamos los binarios
-https://windows.php.net/download#php-8.1, lo descomprimimos, cambiamos el 
+https://windows.php.net/download#php-8.1 (Elegimos **Thread Safe**) lo descomprimimos, cambiamos el 
 nombre de la carpeta descomprimida a `php` y cambiamos la dirección de la 
 carpeta en `C:\Program Files\`. Agregamos `C:\Program Files\php` a la variable 
 `PATH` del sistema (reiniciamos).

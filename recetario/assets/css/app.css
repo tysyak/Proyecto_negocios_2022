@@ -1,3 +1,9 @@
+*{
+    margin:0;
+}
+
+html { font-size: 22px; }
+
 body {
     margin: 0;
     font-family: 'Lato', sans-serif;
@@ -13,18 +19,6 @@ img {
     box-sizing: border-box;
 }
 
-nav {
-    position: sticky;
-    top: 0;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    padding: 1.5rem 2rem;
-    background-color: #FFDFB9;
-    transition: top 500ms ease-in-out;
-    overflow: hidden;
-
-}
 
 hr {
     position: sticky;
@@ -34,39 +28,87 @@ hr {
     justify-content: space-between;
     transition: top 500ms ease-in-out;
 }
-
-nav.scroll-up,
-nav:focus-within {
-    top: 0;
+* {
+    margin: 0;
 }
 
-nav.scroll-down {
-    top: -100%;
+/*Properties for Nav-bar*/
+nav{
+    display:flex;
+    top:0;
+    height:10vh;
+    justify-content:space-between;
+    align-items:center;
+    padding:0 20px;
+    background: #FFDFB9;
+}
+.nav-sub{
+    display:flex;
+    justify-content:space-between;
+}
+.list-item {
+    padding:10px;
+    list-style:none;
+}
+.nav-link{
+    color:black;
+    text-decoration:none;
 }
 
 .links {
-    display: flex;
+    color:black;
     margin: 0 -1em;
+    text-decoration: none;
 }
 
 .links a {
-    display: inline-block;
     margin: 0 1em;
     float: left;
 }
 
-.logo {
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
+/*Properties for Hamburger*/
+.ham{
+    display:none;
+    padding:5px;
 }
 
-nav a {
-    color: #0f0f0f;
-    text-decoration: none;
-    font-size: 0.6rem;
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
+.bar1,.bar2,.bar3{
+    display:block;
+    width:35px;
+    height:3px;
+    margin:5px auto;
+    background-color: sandybrown;
+    transition: 0.4s;
+}
+@media only screen and (max-width:768px){
+    *{
+        overflow:hidden;
+    }
+    .nav-sub{
+        position:absolute;
+        top:10vh;
+        right:0;
+        flex-direction:column;
+        background-color:#FFDFB9;
+        border-radius:0 0 0 20px;
+        transition:transform 0.3s ease-in;
+        transform:translate(100%);
+    }
+    .nav-change{
+        transform:translate(0%);
+    }
+    .ham{
+        display:block;
+    }
+    .change .bar1 {
+        transform: rotate(45deg) translate(8px,3px);
+    }
+    .change .bar2 {
+        opacity: 0;
+    }
+    .change .bar3 {
+        transform: rotate(-45deg) translate(8px,-3px);
+    }
 }
 
 section {
@@ -105,15 +147,26 @@ header {
 
 .card {
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    margin: 50px auto;
-    width: 350px;
+    margin: 100px auto;
+    width: 600px ;
     transition: .25s ease;
     text-align: center;
-
 }
 
-.card:hover {
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+.cards {
+    max-width: 3600px;
+    margin: auto;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+}
+
+.card-about {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    margin: 50px auto;
+    width:auto;
+    transition: .25s ease;
+    text-align: center;
 }
 
 .container {
@@ -122,6 +175,23 @@ header {
 
 ul {
     text-align: left;
+}
+
+a {
+    padding: 10px 20px;
+}
+.badge {
+    background-color: #FE8019;
+    border: 1px solid #ddd;
+    border-radius: .25em;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
 }
 
 /* buttons */
@@ -235,4 +305,97 @@ textarea{
     line-height: 2;
     border: 1px solid #ddd;
     border-radius: .25em;
+}
+
+
+/* Modal */
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    -webkit-animation-name: fadeIn; /* Fade in the background */
+    -webkit-animation-duration: 0.4s;
+    animation-name: fadeIn;
+    animation-duration: 0.4s
+}
+
+/* Modal Content */
+.modal-content {
+    position: fixed;
+    bottom: 0;
+    background-color: #fefefe;
+    width: 100%;
+    -webkit-animation-name: slideIn;
+    -webkit-animation-duration: 0.4s;
+    animation-name: slideIn;
+    animation-duration: 0.4s
+}
+
+/* The Close Button */
+.close-modal {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-modal:hover,
+.close-modal:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-header {
+    padding: 2px 16px;
+    background-color: #f7cd99;
+    color: white;
+}
+
+.modal-error {
+    background-color: #BB2D3B;
+}
+
+.modal-success {
+    background-color: #48c78e;
+}
+
+.modal-warn {
+    background-color: #f7cd99;
+}
+.modal-body {padding: 2px 16px;}
+
+.modal-footer {
+    padding: 2px 16px;
+    color: white;
+}
+
+/* Add Animation */
+@-webkit-keyframes slideIn {
+    from {bottom: -300px; opacity: 0}
+    to {bottom: 0; opacity: 1}
+}
+
+@keyframes slideIn {
+    from {bottom: -300px; opacity: 0}
+    to {bottom: 0; opacity: 1}
+}
+
+@-webkit-keyframes fadeIn {
+    from {opacity: 0}
+    to {opacity: 1}
+}
+
+@keyframes fadeIn {
+    from {opacity: 0}
+    to {opacity: 1}
 }

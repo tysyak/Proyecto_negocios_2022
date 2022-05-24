@@ -24,14 +24,41 @@ function val_path($path): string
 
 <body>
 
-    <header>
-        <nav>
-            <div class="links">
+<!--   El Modal   -->
+<div id="gen-modal" class="modal">
 
-                <a href="<?= val_path('/') ?>"><img style="height: 1em;" src="/recetario/assets/img/logo.png"> Inicio</a>
-                <a href="<?= val_path('/receta/editar') ?>">Editar Recetas</a>
-                <a href="<?= val_path('/receta/nueva') ?>">Nueva Receta</a>
+    <!-- Modal content -->
+    <div class="modal-content">
+        <div class="modal-header" id="modal-header" >
+            <span class="close-modal" onclick="ocultar_modal()">&times;</span>
+            <h2 >Modal Header</h2>
+        </div>
+        <div class="modal-body" id="modal-body">
+            <p>Some text in the Modal Body</p>
+            <p>Some other text...</p>
+        </div>
+        <div class="modal-footer" id="modal-footer">
+            <h3>Modal Footer</h3>
+        </div>
+    </div>
+
+</div>
+
+    <header>
+        <nav class="navbar">
+            <div class="title"><a class="nav-link" href="<?= val_path('/') ?>"><img style="height: 1em; " src="/recetario/assets/img/logo.png" alt="logo"> Inicio</a></div>
+
+            <div class="ham">
+                <span class="bar1"></span>
+                <span class="bar2"></span>
+                <span class="bar3"></span>
             </div>
+            <ul class="nav-sub">
+                <li class="list-item"><a class="links" href="<?= val_path('/receta/editar') ?>">Editar Recetas</a></li>
+                <li class="list-item"><a class="links" href="<?= val_path('/receta/nueva') ?>">Nueva Receta</a></li>
+                <li class="list-item"><a class="badge links" href="<?= val_path('/login') ?>" style="float: right;">Acceder</a></li>
+            </ul>
+
         </nav>
     </header>
 
@@ -46,6 +73,7 @@ function val_path($path): string
 
 
     <footer>
+        <a class="badge" href="<?= val_path('/subscripcion') ?>">Suscribete</a>
         <a href="<?= val_path('/about') ?>">Acerca de</a>
         <p>Autor: Cristian Romero Andrade<br>
             <a href="mailto:mascrit@gmail.com">mascrit@gmail.com</a>

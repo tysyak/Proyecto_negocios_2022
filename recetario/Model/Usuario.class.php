@@ -42,6 +42,20 @@ class Usuario
         }
     }
 
+    public function set_password(string $username, string $password)
+    {
+        $query = 'INSERT INTO usuario_password(usuario, password)VALUES(:username, :password)';
+        $password = hash('sha512', $password);
+
+        $stmt = $this->db->prepare($query);
+
+        $stmt->bindParam(':username', $username);
+        $stmt->bindParam(':password', $password);
+
+        $this->outcome = $stmt->execute();
+
+    }
+
     /**
      * Get a user from db
      * @param string $username

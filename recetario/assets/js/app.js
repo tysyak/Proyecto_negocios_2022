@@ -35,8 +35,14 @@ function exec_fun(fun, params) {
         case 'edit_form_recipe':
             edit_form_recipe(params); break;
         case 'edit_recipe':
+            alert(`Se cambio la receta "${params.titulo}"` ); break;
+        default:
             console.log(params);
-            alert('Se cambio la receta ' + params.titulo ); break;
+            if (params.status === 200){
+                alert(`Acabas de crear la receta nombrada "${params.titulo}"`); break;
+            } else {
+                alert('Hubo un problema al crear la receta');
+            }
 
     }
 }

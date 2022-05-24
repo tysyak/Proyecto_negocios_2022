@@ -41,6 +41,30 @@ class RecetaController
         echo json_encode($id);
     }
 
+    static function new_receta(
+        string $title,
+        array $pasos,
+        array $materiales,
+        array $image=null
+    ) : void
+    {
+        $recipe = new Receta();
+
+        $id_receta = $recipe->new_receta_titulo($title);
+
+        for ($i=0 ; $i < sizeof($pasos); $i++) {
+            $recipe->set_paso($id_receta, $i, $pasos[$i]);
+        }
+        for ($i=0 ; $i < sizeof($materiales); $i++) {
+            $recipe->set_material($id_receta, $i, $materiales[$i]);
+        }
+        if ($image['size']!=0) {
+            $file = fopen($image['tmp_name'], 'rb');
+            $recipe->set_imagen($id_receta,$file);
+        }
+        echo json_encode(['status' => 200, 'titulo' => $title]);
+    }
+
     static function update_receta(
         int $id_receta,
         string $title,

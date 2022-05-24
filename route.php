@@ -34,7 +34,10 @@ $router->get('/receta/nueva', function ($params) use ($router){
 // Rutas exclusivas para JSON -----------------------------
 
  $router->get('/api/receta', function ($params) {
-     RecetaController::get_receta_json($params['id'] ?? null);
+     $id = isset($params['id']) ? (int)$params['id'] : null;
+     $limit = isset($params['limit']) ? (int)$params['limit'] : null;
+     $offset = isset($params['limit']) ? (int)$params['limit'] : null;
+     RecetaController::get_receta_json($id, $limit, $offset);
  });
 
 $router->get('/api/receta/titulo', function ($params) {
@@ -44,7 +47,11 @@ $router->get('/api/receta/titulo', function ($params) {
 
 
  $router->post('/api/receta/nuevo', function ($params) {
-
+     $titulo = $params['titulo'];
+     $pasos = $params['pasos'];
+     $materiales = $params['materiales'];
+     $image = $params['prev_image'] ;
+     RecetaController::new_receta($titulo,$pasos,$materiales,$image);
  });
 
 $router->post('/api/receta/editar', function ($params) {

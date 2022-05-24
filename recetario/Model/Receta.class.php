@@ -42,15 +42,13 @@ class Receta
 
     public function search_id_receta_by_title(string $titulo): int
     {
-        $titulo = '%';
-        $titulo .= strtoupper($titulo);
-        $titulo .= '%';
+        $titulo = strtoupper($titulo);
 
         $query = "select id from receta where upper(titulo) like :titulo";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':titulo', $titulo);
         $stmt->execute();
-        $resp = $stmt->fetch(PDO::FETCH_ASSOC);
+        $resp = $stmt->fetch();
 
 
         return $resp['id'];
@@ -185,7 +183,7 @@ class Receta
 
     public function new_receta_titulo(string $titulo): int
     {
-        $query = "INSERT INTO receta(titulo, imagen) VALUES(':titulo', NULL)";
+        $query = "INSERT INTO receta(titulo, imagen) VALUES(:titulo, NULL)";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':titulo', $titulo);
         $stmt->execute();

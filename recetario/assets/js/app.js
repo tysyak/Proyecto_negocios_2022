@@ -1,27 +1,36 @@
-if (window.location.pathname !== '/') {
-    document.getElementById('listar_recetas').hidden = true;
-}
-
 async function listar_receta() {
-    let html;
+    let html = '';
     let response = await fetch('api/receta',{
         "method": "GET",
         "headers": {'Content-Type': 'application/json'}
     }).then(response => response.json())
         .catch(error => console.error('Error:', error))
         .then(response => {
-             html = '<div class="card">';
              response.forEach((receta) => {
-                 html += '<img alt="'+ receta.titulo +'" id="image-'+receta.id+'"' +
-                     ' src="data:image/png;base64,'+ receta.imagen +
-                     '" style="width:100%">';
+                 let img_src = receta.imagen == null ? 'src="/recetario/assets/img/food_default.png"'
+                     : `src="data:image/png;base64,${receta.imagen}`;
+                 html += '<div class="card">';
+                 html += '<img alt="'+ receta.titulo +'" id="image-'+receta.id+'" ' +
+                     img_src + '" style="width:100%">';
                  html += '<div class="container">';
                  html += '<h4><b>'+receta.titulo+'</b></h4>';
                  html += '<ul>';
                  receta.materiales.forEach((material => {
                      html += '<li>'+ material.descripcion +'</li>';
                  }))
+
                  html += '</ul>';
+
+                 html += `<input type="checkbox" class="read-more-state" id="${receta.id}" />`;
+
+                 receta.pasos.forEach((paso => {
+                     html += '<p class="read-more-wrap"><br><span class="read-more-target">' +
+                         paso.descripcion +'</span></p> ';
+                 }))
+
+                 html += `<label for="${receta.id}" class="btn read-more-trigger"></label><br>`;
+
+                 html += '</div>';
                  html += '</div>';
              });
              html += '</div>';
@@ -35,8 +44,14 @@ function exec_fun(fun, params) {
         case 'edit_form_recipe':
             edit_form_recipe(params); break;
         case 'edit_recipe':
+            alert(`Se cambio la receta "${params.titulo}"` ); break;
+        default:
             console.log(params);
-            alert('Se cambio la receta ' + params.titulo ); break;
+            if (params.status === 200){
+                alert(`Acabas de crear la receta nombrada "${params.titulo}"`); break;
+            } else {
+                alert('Hubo un problema al crear la receta');
+            }
 
     }
 }
@@ -49,12 +64,13 @@ document.body.addEventListener("submit", async function (event) {
     let method = form.method;
     let fun = form.getAttribute('function')
     let init;
-    console.log(method)
+
     switch(form.id) {
         case 'cargar_receta_editar':
             fun = form.getAttribute('function')
             uri += '?id='+body.get('id_receta_to_edit');
             init = {
+                "headers": { 'accept': 'application/json'},
                 "method":  method,
             }
             break;
@@ -71,11 +87,10 @@ document.body.addEventListener("submit", async function (event) {
 });
 
 async function edit_form_recipe(params){
-    console.log(params);
     document.getElementById('id_receta').value = params.id;
     document.getElementById('titulo').value = params.titulo;
-    document.getElementById('image').src = 'data:image/png;base64,' +
-        params.image;
+    document.getElementById('image').src = params.image == null ? '/recetario/assets/img/food_default.png'
+        : `data:image/png;base64,${params.image}`;
     let html = '';
     params.materiales.forEach((elem) => {
         materiales_id = 'materiales[]';
@@ -94,8 +109,9 @@ function agregar_material(){
     const materiales = document.getElementById("materiales");
     let html = document.createElement('input');
     html.type = 'text';
-    html.name = 'pasos[]';
-    html.id = 'pasos[]';
+    html.name = 'materiales[]';
+    html.id = 'materiales[]';
+    html.autocomplete = 'off';
     html.required = true;
     materiales.appendChild(document.createElement('br'));
     materiales.appendChild(html);

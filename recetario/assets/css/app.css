@@ -22,7 +22,10 @@ nav {
     padding: 1.5rem 2rem;
     background-color: #FFDFB9;
     transition: top 500ms ease-in-out;
+    overflow: hidden;
+
 }
+
 hr {
     position: sticky;
     top: 0;
@@ -49,6 +52,7 @@ nav.scroll-down {
 .links a {
     display: inline-block;
     margin: 0 1em;
+    float: left;
 }
 
 .logo {
@@ -83,7 +87,6 @@ footer {
     padding: 1.0em;
     text-align: center;
     background-color: #FFDFB9;
-    text-align: center;
 }
 
 footer a {
@@ -102,9 +105,11 @@ header {
 
 .card {
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    transition: 0.3s;
-    width: 80%;
+    margin: 50px auto;
+    width: 350px;
+    transition: .25s ease;
     text-align: center;
+
 }
 
 .card:hover {
@@ -123,7 +128,8 @@ ul {
 
 .btn {
     background-color: #FE8019;
-    border: none;
+    border: 1px solid #ddd;
+    border-radius: .25em;
     color: white;
     padding: 15px 32px;
     text-align: center;
@@ -134,9 +140,46 @@ ul {
     cursor: pointer;
 }
 
+.btn:disabled {
+    background-color: #ffe2cc;
+}
+
 .btn-danger {
     background-color: #BB2D3B;
     color: white;
+}
+
+.btn-danger:disabled {
+    background-color: #ba9498;
+    color: white;
+}
+
+.btn-success {
+    background-color: #48c78e;
+    color: white;
+}
+
+.btn-success:disabled {
+    background-color: #9fc6b4;
+    color: white;
+}
+
+select {
+    background-color: #ffb87f;
+    border: 1px solid #ddd;
+    border-radius: .25em;
+    color: white;
+    padding: 15px 32px;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+select option{
+    color: white;
+    padding: 0 10px;
 }
 
 /* forms */
@@ -151,4 +194,45 @@ textarea{
     border: 1px solid #f7cd99;
     font-size: 16px;
     padding: 5px;
+}
+
+/* Read more button */
+
+.read-more-state {
+    display: none;
+}
+
+.read-more-target {
+    opacity: 0;
+    max-height: 0;
+    font-size: 0;
+    transition: .25s ease;
+    margin: 25px;
+
+}
+
+.read-more-state:checked ~ .read-more-wrap .read-more-target {
+    opacity: 1;
+    font-size: inherit;
+    max-height: 999em;
+}
+
+.read-more-state ~ .read-more-trigger:before {
+    content: 'Ver Receta Completa';
+    margin: 25px;
+}
+
+.read-more-state:checked ~ .read-more-trigger:before {
+    content: 'Ocultar Receta';
+    margin: 25px;
+}
+
+.read-more-trigger {
+    cursor: pointer;
+    display: inline-block;
+    padding: 0 .5em;
+    font-size: .9em;
+    line-height: 2;
+    border: 1px solid #ddd;
+    border-radius: .25em;
 }

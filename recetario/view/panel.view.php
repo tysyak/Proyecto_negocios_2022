@@ -10,10 +10,12 @@ function val_path($path): string
 }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" type="image/x-icon" href="/recetario/assets/img/favicon.ico">
+
     <link rel="stylesheet" href="/recetario/assets/css/app.css">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,7 +28,7 @@ function val_path($path): string
         <nav>
             <div class="links">
 
-                <a href="<?= val_path('/') ?>">Inicio</a>
+                <a href="<?= val_path('/') ?>"><img style="height: 1em;" src="/recetario/assets/img/logo.png"> Inicio</a>
                 <a href="<?= val_path('/receta/editar') ?>">Editar Recetas</a>
                 <a href="<?= val_path('/receta/nueva') ?>">Nueva Receta</a>
             </div>

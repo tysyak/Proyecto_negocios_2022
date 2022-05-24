@@ -76,9 +76,11 @@ class RecetaController
     ) : void
     {
         $recipe = new Receta();
-        if ($image['size']!=0) {
-            $file = fopen($image['tmp_name'], 'rb');
-            $recipe->set_imagen($id_receta,$file);
+        if (isset($image['size'])) {
+            if ($image['size'] != 0) {
+                $file = fopen($image['tmp_name'], 'rb');
+                $recipe->set_imagen($id_receta, $file);
+            }
         }
         if ($borrar_imagen) {
             $recipe->set_imagen($id_receta,null);

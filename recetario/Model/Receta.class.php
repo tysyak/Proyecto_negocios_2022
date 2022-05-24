@@ -20,7 +20,7 @@ class Receta
         $this->db = new DataBase();
     }
 
-    public function get_receta(int $id): void
+    public function get_receta(int $id): array
     {
         $query = 'SELECT id, titulo, imagen FROM receta where id = :id order by id desc ';
         $stmt = $this->db->prepare($query);
@@ -37,6 +37,8 @@ class Receta
             $this->get_receta_materiales($this->id);
         }
         $this->manny = [];
+
+        return (array)$this;
 
     }
 

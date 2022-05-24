@@ -7,18 +7,18 @@ use Model\Receta;
 
 class RecetaController
 {
-    static function get_receta(string $id = null)
+    static function get_receta(int $id = null, int $limit = null, int $offset = null)
     {
         $recipe = new Receta();
 
         if (is_null($id)) {
-            return $recipe->get_all();
+            return $recipe->get_all($limit, $offset);
         } else {
-            return $recipe->get_receta((int)$id);
+            return $recipe->get_receta($id);
         }
     }
 
-    static function get_receta_json(string $id = null): void
+    static function get_receta_json(int $id = null, int $limit = null, int $offset = null): void
     {
         header('Content-Type: application/json');
 

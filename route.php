@@ -18,6 +18,10 @@ $router->get('/contacto', function () use ($router) {
     $router->render('contacto');
 });
 
+$router->get('/subscripcion', function () use ($router) {
+    $router->render('subscripcion');
+});
+
 $router->add_not_found_handler(function () use ($router) {
     $router->render('404');
 });
@@ -27,6 +31,7 @@ $router->get('/receta/editar', function ($params) use ($router){
 
     $router->render('form_edit_recipe', (array)$datos);
 });
+
 $router->get('/receta/nueva', function ($params) use ($router){
     $router->render('form_new_recipe');
 });

@@ -27,10 +27,10 @@ function val_path($path): string
     <header>
         <nav>
             <div class="links">
-
-                <a href="<?= val_path('/') ?>"><img style="height: 1em;" src="/recetario/assets/img/logo.png"> Inicio</a>
+                <a href="<?= val_path('/') ?>"><img style="height: 1em; " src="/recetario/assets/img/logo.png"> Inicio</a>
                 <a href="<?= val_path('/receta/editar') ?>">Editar Recetas</a>
                 <a href="<?= val_path('/receta/nueva') ?>">Nueva Receta</a>
+                <a class="badge" href="<?= val_path('/login') ?>" style="float: right;">Acceder</a>
             </div>
         </nav>
     </header>
@@ -46,6 +46,7 @@ function val_path($path): string
 
 
     <footer>
+        <a class="badge" href="<?= val_path('/subscripcion') ?>">Suscribete</a>
         <a href="<?= val_path('/about') ?>">Acerca de</a>
         <p>Autor: Cristian Romero Andrade<br>
             <a href="mailto:mascrit@gmail.com">mascrit@gmail.com</a>

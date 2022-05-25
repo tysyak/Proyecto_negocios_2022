@@ -64,7 +64,7 @@ async function listar_receta() {
         "headers": {'Content-Type': 'application/json'}
     }).then(response => response.json())
         .catch(error => console.error('Error:', error))
-        .then(response => {
+        .then(async response => {
              response.forEach((receta) => {
                  let img_src = receta.imagen == null ? 'src="/recetario/assets/img/food_default.png"'
                      : `src="data:image/png;base64,${receta.imagen}`;
@@ -82,13 +82,28 @@ async function listar_receta() {
 
                  html += `<input type="checkbox" class="read-more-state" id="${receta.id}" />`;
 
-                 receta.pasos.forEach((paso => {
+                  receta.pasos.forEach((paso => {
                      html += '<p class="read-more-wrap"><br><span class="read-more-target">' +
                          paso.descripcion +'</span></p> ';
                  }))
 
                  html += `<label for="${receta.id}" class="btn read-more-trigger"></label><br>`;
+                 if (typeof username !== 'undefined') {
+                     console.log(fetch('/api/esfavorito?username='+username+'&id_receta='+receta.id, {
+                         "headers": { 'accept': 'application/json'}
+                     }).then(response => response.json())
+                         .then(data => {
+                             console.log(data.favorito === '1')
+                             if (data.favorito === '1') {
+                                 html += `<button onclick="add_favoritos(${receta.id})" class="badge btn-success">A Favoritos</button><br>`;
+                             } else {
+                                 html += `<button onclick="del_favoritos(${receta.id})" class="badge btn-danger">Quitar de Favoritos</button><br>`;
+                             }
+                             console.log(html)
 
+                         }))
+
+                 }
                  html += '</div>';
                  html += '</div>';
              });
@@ -98,6 +113,12 @@ async function listar_receta() {
 
     document.getElementById('app').innerHTML = html;
 }
+
+
+
+function add_favoritos(id) {}
+function del_favoritos(id) {}
+
 
 function exec_fun(fun, params, status) {
     switch (fun) {
@@ -168,7 +189,6 @@ document.body.addEventListener("submit", async function (event) {
         .then(async result => {
             const status = result.status;
             const data = await result.json();
-            console.log(status);
             exec_fun(fun, data, status);
         })
         .catch(error => {

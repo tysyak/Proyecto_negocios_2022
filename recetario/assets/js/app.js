@@ -59,45 +59,56 @@ window.onclick = function(event) {
 // Fin de Modal
 async function listar_receta() {
     let html = '<div class="cards">';
-    let response = await fetch('api/receta',{
+    let uri = '/api/receta';
+    if (typeof username !== 'undefined') {
+        uri += '?username='+username
+    }
+    await fetch(uri,{
         "method": "GET",
         "headers": {'Content-Type': 'application/json'}
     }).then(response => response.json())
         .catch(error => console.error('Error:', error))
-        .then(response => {
-             response.forEach((receta) => {
-                 let img_src = receta.imagen == null ? 'src="/recetario/assets/img/food_default.png"'
-                     : `src="data:image/png;base64,${receta.imagen}`;
-                 html += '<div class="card">';
-                 html += '<img alt="'+ receta.titulo +'" id="image-'+receta.id+'" ' +
-                     img_src + '" style="width:100%">';
-                 html += '<div class="container">';
-                 html += '<h4><b>'+receta.titulo+'</b></h4>';
-                 html += '<ul>';
-                 receta.materiales.forEach((material => {
-                     html += '<li>'+ material.descripcion +'</li>';
-                 }))
+        .then(async response => {
+            response.forEach((receta) => {
+                let img_src = receta.imagen == null ? 'src="/recetario/assets/img/food_default.png"'
+                    : `src="data:image/png;base64,${receta.imagen}`;
+                html += '<div class="card">';
+                html += `<img alt="${receta.titulo}" id="image-${receta.id}" ${img_src}" style="width:100%">`;
+                html += '<div class="container">';
+                html += '<h4><b>'+receta.titulo+'</b></h4>';
+                html += '<ul>';
+                receta.materiales.forEach((material => {
+                    html += '<li>'+ material.descripcion +'</li>';
+                }))
 
-                 html += '</ul>';
+                html += '</ul>';
 
-                 html += `<input type="checkbox" class="read-more-state" id="${receta.id}" />`;
+                html += `<input type="checkbox" class="read-more-state" id="${receta.id}" />`;
 
-                 receta.pasos.forEach((paso => {
-                     html += '<p class="read-more-wrap"><br><span class="read-more-target">' +
-                         paso.descripcion +'</span></p> ';
-                 }))
+                receta.pasos.forEach((paso => {
+                    html += '<p class="read-more-wrap"><br><span class="read-more-target">' +
+                        paso.descripcion +'</span></p> ';
+                }))
 
-                 html += `<label for="${receta.id}" class="btn read-more-trigger"></label><br>`;
-
-                 html += '</div>';
-                 html += '</div>';
-             });
-             html += '</div>';
+                html += `<label for="${receta.id}" class="btn read-more-trigger"></label><br>`;
+                if (typeof username !== 'undefined') {
+                    html += (receta.favorito) ? `<button class="badge btn-danger" onclick="del_favoritos(${receta.id})">Eliminar de favoritos</button>` :
+                        `<button class="badge btn-success" onclick="add_favoritos(${receta.id})">Añadir a favoritos</button>`;
+                }
+                html += '</div>';
+                html += '</div>';
+            });
+            html += '</div>';
             html += '</div>';
         });
-
     document.getElementById('app').innerHTML = html;
 }
+
+
+
+function add_favoritos(id) {}
+function del_favoritos(id) {}
+
 
 function exec_fun(fun, params, status) {
     switch (fun) {
@@ -168,7 +179,6 @@ document.body.addEventListener("submit", async function (event) {
         .then(async result => {
             const status = result.status;
             const data = await result.json();
-            console.log(status);
             exec_fun(fun, data, status);
         })
         .catch(error => {

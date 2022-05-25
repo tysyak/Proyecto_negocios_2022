@@ -111,7 +111,7 @@ nav{
     background-color: sandybrown;
     transition: 0.4s;
 }
-@media only screen and (max-width:668px){
+@media only screen and (max-width:767px){
     .nav-sub{
         position:absolute;
         top:10vh;

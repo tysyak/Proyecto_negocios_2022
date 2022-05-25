@@ -12,8 +12,8 @@ class Usuario
     public string $username;
     public int $id;
     public bool $outcome;
-    public object $creation_time;
-    public object $modification_time;
+    public array $creation_time;
+    public array $modification_time;
     public array $manny;
 
 
@@ -73,24 +73,41 @@ class Usuario
 
     }
 
+    public function es_favorito(int $id_usuario, int $id_receta) : bool
+    {
+        $query = 'SELECT true val from receta r 
+            inner join usuario_receta ur on r.id = ur.id_receta 
+            where ur.id_usuario = :id_usuario and ur.id_receta = :id_receta';
+
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
+        $stmt->bindParam(':id_receta', $id_receta, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        $resp = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return isset($resp['val']);
+    }
+
     /**
      * Get a user from db
      * @param string $username
      * @return void
      */
-    public function get_usuario(string $username): void
+    public function get_usuario(string $username): array
     {
-        $query = "select id, username, creation_time, modification_time from usuario where username = :username";
+        $query = "select id, username, creation_time, modification_time from usuario where upper(username) = upper(:username)";
         $stmt = $this->db->prepare($query);
 
         $stmt->bindParam(':username', $username);
 
         $stmt->execute();
-        $resp = $stmt->fetch();
+        $resp = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($resp) {
-            $this->set($resp[0],$resp[1],$resp[2],$resp[3],true);
+            $this->set($resp['id'],$resp['username'],$resp['creation_time'],$resp['modification_time'],true);
         }
-        $this->set();
+        return (array)$this;
     }
 
     /**
@@ -131,11 +148,10 @@ class Usuario
         bool $outcome=false
     ) : void
     {
-        var_dump(strtotime($creation_time));
         $this->id = $id;
         $this->username = $username;
-        $this->creation_time = (object) getdate(strtotime($creation_time));
-        $this->modification_time = (object) getdate(strtotime($modification_time));
+        $this->creation_time = getdate(strtotime($creation_time));
+        $this->modification_time = getdate(strtotime($modification_time));
         $this->outcome = $outcome;
         $this->manny = array();
     }

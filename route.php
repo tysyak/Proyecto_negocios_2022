@@ -36,13 +36,22 @@ $router->add_not_found_handler(function () use ($router) {
 });
 
 $router->get('/receta/editar', function () use ($router){
-    $datos = RecetaController::get_receta();
-
-    $router->render('form_edit_recipe', $datos);
+    if (isset($_SESSION['username'])) {
+        $datos = RecetaController::get_receta();
+        $router->render('form_edit_recipe', $datos);
+    } else {
+        header('HTTP/1.0 401 Unauthorized');
+        $router->render('401');
+    }
 });
 
 $router->get('/receta/nueva', function () use ($router){
-    $router->render('form_new_recipe');
+    if (isset($_SESSION['username'])) {
+        $router->render('form_new_recipe');
+    } else {
+        header('HTTP/1.0 401 Unauthorized');
+        $router->render('401');
+    }
 });
 
 

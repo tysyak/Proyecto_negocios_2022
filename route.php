@@ -58,9 +58,16 @@ $router->get('/logout', function () use ($router) {
 
  $router->get('/api/receta', function ($params) {
      $id = isset($params['id']) ? (int)$params['id'] : null;
+     $id_usuario = isset($params['username'])
+         ? UsuarioController::get_id_usuario($params['username']) : null;
      $limit = isset($params['limit']) ? (int)$params['limit'] : null;
      $offset = isset($params['limit']) ? (int)$params['limit'] : null;
-     RecetaController::get_receta_json($id, $limit, $offset);
+     RecetaController::get_receta_json(
+         id: $id,
+         id_usuario: $id_usuario,
+         limit: $limit,
+         offset: $offset
+     );
  });
 
 $router->get('/api/receta/titulo', function ($params) {

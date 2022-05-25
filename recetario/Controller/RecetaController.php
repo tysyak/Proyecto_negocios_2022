@@ -18,14 +18,18 @@ class RecetaController
         }
     }
 
-    static function get_receta_json(int $id = null, int $limit = null, int $offset = null): void
+    static function get_receta_json(int $id = null, int $id_usuario = null, int $limit = null, int $offset = null): void
     {
         header('Content-Type: application/json');
 
         $recipe = new Receta();
 
         if (is_null($id)) {
-            $recipe->get_all();
+            $recipe->get_all(
+                id_usuario: $id_usuario,
+                limit: $limit,
+                offset: $offset
+            );
             header("HTTP/1.1 200 OK");
             echo json_encode($recipe->manny);
         } else {

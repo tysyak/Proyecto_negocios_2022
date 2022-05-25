@@ -13,6 +13,7 @@ class Receta
     public array $materiales;
     public array $pasos;
     public array $manny;
+    public bool $favorito;
     public $image;
 
     public function __construct()
@@ -56,32 +57,36 @@ class Receta
         return $resp['id'];
     }
 
-    public function get_all(int $limit=null, int$offset=null)
+    public function get_all(int $id_usuario=null,int $limit=null, int $offset=null)
     {
         $this->pasos = [];
-        $query = 'SELECT id, titulo, imagen FROM receta order by id desc';
+        if (is_null($id_usuario)) {
+            $query = 'SELECT id, titulo, imagen FROM receta ';
+        } else {
+            $query = 'SELECT r.id,r.titulo,if(ur.id_usuario = :id_usuario, true, false) favorito, r.imagen FROM receta r 
+                       left join usuario_receta ur on ur.id_receta = r.id 
+                       ';
+        }
         $query .= is_null($limit) ? '' : " limit $limit";
         $query .= is_null($offset) ? '' : " offset $offset";
         $stmt = $this->db->prepare($query);
-        $stmt->execute();
-
-        $resp = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        if (!is_null($resp)) {
-            foreach ($resp as $receta) {
-                $tmp = new stdClass();
-                $tmp->id = $receta['id'];
-                $tmp->titulo = $receta['titulo'];
-                $tmp->imagen = $receta['imagen'] ?? null;
-                if (!is_null($tmp->imagen)) {
-                    $tmp->imagen = base64_encode($tmp->imagen);
-                }
-                $this->get_receta_materiales($tmp->id);
-                $tmp->materiales = $this->materiales;
-                $tmp->pasos = $this->pasos;
-                $this->manny[] = (array)$tmp;
-            }
+        if (!is_null($id_usuario)) {
+            $stmt->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
         }
-        return $this->manny;
+        return $this->extracted($stmt);
+    }
+
+    public function get_favorite_recipes_user(int $id_usuario) : array
+    {
+        $query = 'select id, imagen, titulo from receta r 
+                where exists (
+                    select 1 from usuario_receta ur  
+                    where ur.id_usuario  = r.usuario_creador  
+                      and r.usuario_creador = :id_usuario)';
+
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
+        return $this->extracted($stmt);
     }
 
     public function set_imagen(int $id, $bin)
@@ -229,6 +234,36 @@ class Receta
     public function set_pasos(int $id_receta, array $pasos): void
     {
         $this->pasos = $pasos;
+    }
+
+    /**
+     * @param bool|\PDOStatement $stmt
+     * @return array
+     */
+    public function extracted(bool|\PDOStatement $stmt): array
+    {
+        $stmt->execute();
+
+        $resp = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        if (!is_null($resp)) {
+            foreach ($resp as $receta) {
+                $tmp = new stdClass();
+                $tmp->id = $receta['id'];
+                $tmp->titulo = $receta['titulo'];
+                $tmp->imagen = $receta['imagen'] ?? null;
+                if (isset($receta['favorito'])) {
+                    $tmp->favorito = !($receta['favorito'] == 0);
+                }
+                if (!is_null($tmp->imagen)) {
+                    $tmp->imagen = base64_encode($tmp->imagen);
+                }
+                $this->get_receta_materiales($tmp->id);
+                $tmp->materiales = $this->materiales;
+                $tmp->pasos = $this->pasos;
+                $this->manny[] = (array)$tmp;
+            }
+        }
+        return $this->manny;
     }
 
 

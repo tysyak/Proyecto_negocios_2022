@@ -5,7 +5,7 @@ use Model\Usuario;
 
 class UsuarioController
 {
-    static function begin_session(string $username, string $password)
+    static function begin_session(string $username, string $password) :void
     {
 
         $username = strtoupper($username);
@@ -16,7 +16,6 @@ class UsuarioController
             $_SESSION['valid'] = true;
             $_SESSION['timeout'] = time();
             header("HTTP/1.1 200 OK");
-            echo '';
             header('Content-Type: application/json');
             $msg = '<p>Iniciaste sesión como: ' . $username.'</p>'.
             '<meta http-equiv=\'refresh\' content=\'3; url=/ \'/>';
@@ -25,5 +24,10 @@ class UsuarioController
             header('HTTP/1.0 401 Unauthorized');
             echo '{"status":  401, "msg": "Verifica tus credenciales "}';
         }
+    }
+
+    static function get_id_usuario(string $username){
+        $user = new Usuario();
+        return $user->get_usuario($username)['id'];
     }
 }

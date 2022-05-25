@@ -27,7 +27,8 @@ create table usuario_password(
 create table receta (
   id serial primary key,
   imagen longblob null,
-  titulo varchar(32) not null unique
+  titulo varchar(32) not null unique,
+  usuario_creador bigint(20) unsigned
 );
 
 create table receta_pasos_tipo_catalogo(

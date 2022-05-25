@@ -26,13 +26,8 @@ class UsuarioController
         }
     }
 
-    static function es_favorito(string $usuario, int $id_receta): void
-    {
+    static function get_id_usuario(string $username){
         $user = new Usuario();
-        $id_usuario = $user->get_usuario($usuario)['id'];
-        $resp = $user->es_favorito($id_usuario, $id_receta);
-        header("HTTP/1.1 200 OK");
-        header('Content-Type: application/json');
-        echo '{"status":  200, "favorito": "'.$resp.'"}';
+        return $user->get_usuario($username)['id'];
     }
 }

@@ -26,15 +26,18 @@ class RecetaController
 
         if (is_null($id)) {
             $recipe->get_all();
+            header("HTTP/1.1 200 OK");
             echo json_encode($recipe->manny);
         } else {
             $recipe->get_receta($id);
+            header("HTTP/1.1 200 OK");
             echo json_encode($recipe);
         }
     }
 
     static function get_id_receta_by_title(string $title): void
     {
+        header("HTTP/1.1 200 OK");
         $id = array(
             'id' => (new Receta)->search_id_receta_by_title($title),
             'status' => 200
@@ -63,7 +66,9 @@ class RecetaController
             $file = fopen($image['tmp_name'], 'rb');
             $recipe->set_imagen($id_receta,$file);
         }
-        echo json_encode(['status' => 200, 'titulo' => $title]);
+
+        header("HTTP/1.1 200 OK");
+        echo json_encode(['status' => 200, 'titulo' => $title, 'msg' => 'Creaste la receta "<b>'.$title.'</b>"']);
     }
 
     static function update_receta(
@@ -97,7 +102,8 @@ class RecetaController
         $recipe->set_titulo($id_receta, $title);
         self::get_receta("$id_receta");
 
-        echo json_encode(['status' => 200, 'titulo' => $title]);
+        header("HTTP/1.1 200 OK");
+        echo json_encode(['status' => 200, 'titulo' => $title, 'msg' => "Se actualizó '<b>$title</b>'"]);
 
     }
 }

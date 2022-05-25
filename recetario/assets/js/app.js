@@ -22,7 +22,7 @@ function mostrar_modal(cuerpo, titulo, pie, tipo='warn') {
     let clase;
     switch (tipo) {
         case 'error' :
-            clase = 'modal-warn';
+            clase = 'modal-error';
             break;
         case 'success':
             clase = 'modal-success';
@@ -99,31 +99,41 @@ async function listar_receta() {
     document.getElementById('app').innerHTML = html;
 }
 
-function exec_fun(fun, params) {
+function exec_fun(fun, params, status) {
     switch (fun) {
         case 'edit_form_recipe':
             edit_form_recipe(params); break;
         case 'edit_recipe':
             ocultar_modal();
-            mostrar_modal(`Se cambio la receta "${params.titulo}"`,
+            mostrar_modal(params.msg,
                 'Exito',
                 '',
                 'success'); break;
         default:
-            if (params.status === 200){
-                ocultar_modal();
-                mostrar_modal(
-                    `Acabas de crear la receta nombrada "${params.titulo}"`,
-                    'Exito',
-                    '',
-                    'success'); break;
-            } else {
-                ocultar_modal();
-                mostrar_modal('Hubo un problema al crear la receta',
-                    'Error',
-                    '',
-                    'error');
+            switch (status){
+                case 200:
+                    ocultar_modal();
+                    mostrar_modal(
+                        params.msg,
+                        'Exito',
+                        '',
+                        'success');
+                    break;
+                case 404:
+                    ocultar_modal();
+                    mostrar_modal('Hubo un problema, la solicitud no existe',
+                        'Error',
+                        '',
+                        'error');
+                    break;
+                default:
+                    ocultar_modal();
+                    mostrar_modal('Hubo un problema, verifique los datos',
+                        'Error',
+                        '');
+
             }
+
 
     }
 }
@@ -154,9 +164,16 @@ document.body.addEventListener("submit", async function (event) {
             }
     }
     mostrar_modal('Espera un momento...','Cargando','');
-    let response = await fetch(uri,init)
-    let result = await response.json();
-    await exec_fun(fun, result);
+    fetch(uri,init)
+        .then(async result => {
+            const status = result.status;
+            const data = await result.json();
+            console.log(status);
+            exec_fun(fun, data, status);
+        })
+        .catch(error => {
+            exec_fun('fail', {status: 404}, 404)
+        });
 });
 
 async function edit_form_recipe(params){

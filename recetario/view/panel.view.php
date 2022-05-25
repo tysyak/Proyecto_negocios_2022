@@ -56,7 +56,11 @@ function val_path($path): string
             <ul class="nav-sub">
                 <li class="list-item"><a class="links" href="<?= val_path('/receta/editar') ?>">Editar Recetas</a></li>
                 <li class="list-item"><a class="links" href="<?= val_path('/receta/nueva') ?>">Nueva Receta</a></li>
-                <li class="list-item"><a class="badge links" href="<?= val_path('/login') ?>" style="float: right;">Acceder</a></li>
+                <?php if (isset($_SESSION['username'])): ?>
+                    <li class="list-item"><a class="badge links btn-danger" href="<?= val_path('/logout') ?>" style="float: right;">Cerrar Sesión</a></li>
+                <?php else: ?>
+                    <li class="list-item"><a class="badge links" href="<?= val_path('/login') ?>" style="float: right;">Acceder</a></li>
+                <?php endif; ?>
             </ul>
 
         </nav>
@@ -84,7 +88,12 @@ function val_path($path): string
 <script src="/recetario/assets/js/app.js" type="application/javascript"></script>
 <?php if ($_SERVER['REQUEST_URI'] == '/'): ?>
     <script type="application/javascript">
-        listar_receta();
+        window.onload = () => {
+            mostrar_modal('Esperando las recetas',
+                'Cargando','');
+            listar_receta();
+            ocultar_modal();
+        }
     </script>
 <?php endif; ?>
 </html>

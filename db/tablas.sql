@@ -54,3 +54,11 @@ create table receta_materiales (
   descripcion text not null,
   primary key(id_receta, id_material)
 );
+
+
+create table usuario_receta(
+    id_usuario bigint(20) unsigned references usuario(id),
+    id_receta bigint(20) unsigned references receta(id),
+    primary key (id_usuario, id_receta)
+);
+

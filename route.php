@@ -68,6 +68,11 @@ $router->get('/api/receta/titulo', function ($params) {
     RecetaController::get_id_receta_by_title($titulo);
 });
 
+$router->get('/api/esfavorito', function ($params) {
+    $id_receta = (int)$params['id_receta'];
+    $username = $params['username'];
+    UsuarioController::es_favorito($username, $id_receta);
+});
 
  $router->post('/api/receta/nuevo', function ($params) {
      $titulo = $params['titulo'];

@@ -42,6 +42,23 @@ class Usuario
         }
     }
 
+    public function check_user_password(string $username, string $hash_password) :bool
+    {
+        $query = 'select true as val from usuario_password 
+         where usuario = :username and password = :password';
+
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':username', $username);
+        $stmt->bindParam(':password', $hash_password);
+
+        $stmt->execute();
+
+        $resp = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return isset($resp['val']);
+
+    }
+
     public function set_password(string $username, string $password)
     {
         $query = 'INSERT INTO usuario_password(usuario, password)VALUES(:username, :password)';

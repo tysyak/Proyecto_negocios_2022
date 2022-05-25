@@ -62,3 +62,20 @@ create table usuario_receta(
     primary key (id_usuario, id_receta)
 );
 
+create table subscripciones(
+    id serial primary key,
+    titulo varchar(50) not null ,
+    descripcion text not null ,
+    precio decimal(5,2) not null ,
+    duracion int unsigned not null , -- en meses
+    creation_time timestamp default CURRENT_TIMESTAMP(),
+    activo bool default true
+);
+
+create table usuario_subscripcion(
+    id serial primary key,
+    id_subscripcion bigint(20) unsigned not null references subscripciones(id)  ,
+    id_usuario bigint(20) unsigned not null references usuario(id)  ,
+    inicio timestamp default CURRENT_TIMESTAMP(),
+    fin timestamp not null -- this.incio + interval duracion MONTH
+);

@@ -54,9 +54,14 @@ function val_path($path): string
                 <span class="bar3"></span>
             </div>
             <ul class="nav-sub">
-                <li class="list-item"><a class="links" href="<?= val_path('/receta/editar') ?>">Editar Recetas</a></li>
-                <li class="list-item"><a class="links" href="<?= val_path('/receta/nueva') ?>">Nueva Receta</a></li>
                 <?php if (isset($_SESSION['username'])): ?>
+                    <script type="application/javascript">
+                        const username = '<?=$_SESSION['username'] ?>';
+                    </script>
+                    <li class="list-item">
+                        <a class="badge links " href="<?= val_path('/perfil') ?>" style="float: right;"><?= ucfirst(strtolower( $_SESSION['username'])) ?></a></li>
+                    <li class="list-item"><a class="links" href="<?= val_path('/receta/editar') ?>">Editar Recetas</a></li>
+                    <li class="list-item"><a class="links" href="<?= val_path('/receta/nueva') ?>">Nueva Receta</a></li>
                     <li class="list-item"><a class="badge links btn-danger" href="<?= val_path('/logout') ?>" style="float: right;">Cerrar Sesión</a></li>
                 <?php else: ?>
                     <li class="list-item"><a class="badge links" href="<?= val_path('/login') ?>" style="float: right;">Acceder</a></li>

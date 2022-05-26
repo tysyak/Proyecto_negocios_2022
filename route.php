@@ -7,8 +7,22 @@ $router = new Router();
 
 // RUTAS para vistas --------------------------------------
 
-$router->get('/recipes', function () use ($router) {
+$router->get('/recetas', function () use ($router) {
     $router->render('panel');
+});
+
+$router->get('/receta', function ($params) use ($router) {
+    if (isset($params['id'])) {
+        $id_usuario = isset($_SESSION['username'])
+            ? UsuarioController::get_id_usuario($_SESSION['username']) : null;
+
+        $router->render('receta', RecetaController::get_receta(
+            id: $params['id'],
+            id_usuario: $id_usuario
+        ));
+    } else {
+        $router->render('404');
+    }
 });
 
 $router->get('/', function() use ($router) {
@@ -31,6 +45,7 @@ $router->get('/login', function () use ($router) {
     if (!isset($_SESSION['username'])) {
         $router->render('/login');
     } else {
+        header('HTTP/1.0 404 Not Found');
         $router->render('/');
     }
 });
@@ -89,9 +104,17 @@ $router->get('/api/receta/titulo', function ($params) {
 });
 
 $router->get('/api/esfavorito', function ($params) {
-    $id_receta = (int)$params['id_receta'];
-    $username = $params['username'];
-    UsuarioController::es_favorito($username, $id_receta);
+    if (isset($_SESSION['username'])) {
+            $id_receta = (int)$params['id_receta'];
+            $username = $params['username'];
+            UsuarioController::cambiar_favorito($username, $id_receta);
+    } else{
+        echo json_encode([
+            'status' => 401,
+            'action' => 'nope',
+            'msg' => 'No has iniciado sessión'
+        ]);
+    }
 });
 
  $router->post('/api/receta/nuevo', function ($params) {

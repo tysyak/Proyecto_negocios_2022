@@ -29,12 +29,17 @@
 <div class="land-container">
     <img src="/recetario/assets/img/land.jpg" alt="Nature" style=" max-width: 100%; height: auto; width: auto\9;" >
     <div class="text-block-left">
+        <img src="/recetario/assets/img/logo.png" alt="mission_img">
         <h4>Tasty Recipes</h4>
         <i>Crea, comparte, busca y guarda <br>  tus recetas favoritas</i>
     </div>
     <div class="text-block-right">
-        <a href="<?= val_path('/recipes') ?>" class="btn btn-success">
+        <a href="<?= val_path('/recetas') ?>" class="btn btn-success">
             Empieza a Cocinar
         </a>
     </div>
+</div>
+
+<div class="card-about" style="font-size:2vw;">
+    Ponemos todas las recetas del mundo en la palma de tu mano. La búsqueda de recetas más potente, los sitios de recetas que te encantan, tu caja de recetas digital y recomendaciones de recetas de comida solo para ti.
 </div>

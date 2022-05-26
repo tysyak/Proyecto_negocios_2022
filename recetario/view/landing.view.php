@@ -29,6 +29,7 @@
 <div class="land-container">
     <img src="/recetario/assets/img/land.jpg" alt="Nature" style=" max-width: 100%; height: auto; width: auto\9;" >
     <div class="text-block-left">
+        <img src="/recetario/assets/img/logo.png" alt="mission_img">
         <h4>Tasty Recipes</h4>
         <i>Crea, comparte, busca y guarda <br>  tus recetas favoritas</i>
     </div>

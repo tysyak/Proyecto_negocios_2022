@@ -7,8 +7,12 @@ $router = new Router();
 
 // RUTAS para vistas --------------------------------------
 
-$router->get('/', function () use ($router) {
+$router->get('/recipes', function () use ($router) {
     $router->render('panel');
+});
+
+$router->get('/', function() use ($router) {
+    $router->render('/landing');
 });
 
 $router->get('/about', function () use ($router) {

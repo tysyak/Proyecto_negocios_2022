@@ -43,9 +43,12 @@ header {
     text-align: center;
 }
 
-img {
+.img-recipe {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    border-radius:20px;
     max-width: 50%;
     height: auto;
+    margin-top: 10px;
 }
 
 * {
@@ -157,6 +160,8 @@ section p {
 
 .card {
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    background-color: rgba(255,223,185,0.6);
+    border-radius:20px;
     margin: 100px auto;
     width: 600px ;
     transition: .25s ease;
@@ -191,13 +196,13 @@ a {
 .badge {
     background-color: #FE8019;
     border: 1px solid #ddd;
-    border-radius: .25em;
+    border-radius:20px;
     color: white;
-    padding: 10px;
+    padding: 6px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
+    font-size: 10px;
     margin: 4px 2px;
     cursor: pointer;
 }
@@ -207,7 +212,7 @@ a {
 .btn {
     background-color: #FE8019;
     border: 1px solid #ddd;
-    border-radius: .25em;
+    border-radius:20px;
     color: white;
     padding: 15px 32px;
     text-align: center;
@@ -245,7 +250,7 @@ a {
 select {
     background-color: #ffb87f;
     border: 1px solid #ddd;
-    border-radius: .25em;
+    border-radius:20px;
     color: white;
     padding: 15px 32px;
     text-decoration: none;
@@ -258,6 +263,7 @@ select {
 select option{
     color: white;
     padding: 0 10px;
+    border-radius:20px;
 }
 
 /* forms */
@@ -265,6 +271,7 @@ textarea{
     border: 1px solid #f7cd99;
     font-size: 16px;
     padding: 5px;
+    border-radius:20px;
 }
 
 
@@ -274,9 +281,9 @@ input[type=text], select {
     margin: 8px 0;
     display: inline-block;
     border: 1px solid #ccc;
-    border-radius: 4px;
     box-sizing: border-box;
     font-size: larger;
+    border-radius:20px;
 
 }
 
@@ -286,7 +293,7 @@ input[type=password], select {
     margin: 8px 0;
     display: inline-block;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 20px;
     box-sizing: border-box;
     font-size: larger;
 }
@@ -298,13 +305,14 @@ input[type=submit] {
     padding: 14px 20px;
     margin: 8px 0;
     border: none;
-    border-radius: 4px;
+    border-radius:20px;
     cursor: pointer;
     font-size: larger;
 }
 
 input[type=submit]:hover {
     background-color: #48c78e;
+    border-radius:20px;
 }
 
 /* Read more button */
@@ -319,8 +327,7 @@ input[type=submit]:hover {
     font-size: 0;
     transition: .25s ease;
     margin: 25px;
-
-}
+    border-radius: 20px;}
 
 .read-more-state:checked ~ .read-more-wrap .read-more-target {
     opacity: 1;
@@ -331,6 +338,7 @@ input[type=submit]:hover {
 .read-more-state ~ .read-more-trigger:before {
     content: 'Ver Receta Completa';
     margin: 25px;
+
 }
 
 .read-more-state:checked ~ .read-more-trigger:before {
@@ -345,7 +353,7 @@ input[type=submit]:hover {
     font-size: .9em;
     line-height: 2;
     border: 1px solid #ddd;
-    border-radius: .25em;
+    border-radius: 20px;
 }
 
 

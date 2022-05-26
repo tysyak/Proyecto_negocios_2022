@@ -87,8 +87,31 @@ class Usuario
 
         $resp = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        return isset($resp['val']);
+        return $resp!=false;
     }
+
+    public function add_favorito(int $id_usuario, int $id_receta)
+    {
+        $query = 'INSERT INTO usuario_receta (id_usuario, id_receta) VALUES(:id_usuario, :id_receta)';
+        $stmt = $this->db->prepare($query);
+
+        $stmt->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
+        $stmt->bindParam(':id_receta', $id_receta, PDO::PARAM_INT);
+
+        $stmt->execute();
+    }
+
+    public function del_favorito(int $id_usuario, int $id_receta)
+    {
+        $query = 'DELETE FROM usuario_receta WHERE id_usuario = :id_usuario AND id_receta = :id_receta';
+        $stmt = $this->db->prepare($query);
+
+        $stmt->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
+        $stmt->bindParam(':id_receta', $id_receta, PDO::PARAM_INT);
+
+        $stmt->execute();
+    }
+
 
     /**
      * Get a user from db

@@ -92,8 +92,8 @@ async function listar_receta() {
 
                 html += `<label for="${receta.id}" class="btn read-more-trigger"></label><br>`;
                 if (typeof username !== 'undefined') {
-                    html += (receta.favorito) ? `<button class="badge btn-danger" onclick="del_favoritos(${receta.id})">Eliminar de favoritos</button>` :
-                        `<button class="badge btn-success" onclick="add_favoritos(${receta.id})">Añadir a favoritos</button>`;
+                    html += (receta.favorito) ? `<button id='btn-fav-${receta.id}' class="badge btn-danger" onclick="toggle_fav(${receta.id})">Eliminar de favoritos</button>` :
+                        `<button id='btn-fav-${receta.id}' class="badge btn-success" onclick="toggle_fav(${receta.id})">Añadir a favoritos</button>`;
                 }
                 html += '</div>';
                 html += '</div>';
@@ -106,8 +106,53 @@ async function listar_receta() {
 
 
 
-function add_favoritos(id) {}
-function del_favoritos(id) {}
+async function toggle_fav(id) {
+    let fav_btn = document.getElementById('btn-fav-'+id);
+    const body =  `?username=${username}&id_receta=${id}`
+    console.log(body)
+    const to_del = 'badge btn-danger';
+    const to_fav = 'badge btn-success'
+    await fetch('/api/esfavorito'+body,{
+        method: 'get',
+        headers: {
+            'accept': 'application/json'
+        }
+    }).then(async result => {
+        const status = result.status;
+        const data = await result.json();
+        switch (data.action) {
+            case 'del':
+                fav_btn.className = to_fav;
+                fav_btn.innerText = 'Añadir a favoritos';
+                mostrar_modal(
+                    'Se elimino la receta de forma exitosa',
+                    'Eliminado de favoritos',
+                    '',
+                    'success'
+                );
+                break;
+            case 'add':
+                fav_btn.className = to_del
+                fav_btn.innerText = 'Eliminar de favoritos';
+                mostrar_modal(
+                    'Se añadio la receta de forma exitosa',
+                    'Añadido a favoritos',
+                    '',
+                    'success'
+                );
+                break;
+
+            default:
+                mostrar_modal(
+                    'Verifica que iniciaste sessión',
+                    'Ocurrio un error',
+                    '',
+                    'error'
+                );
+                break;
+        }
+    });}
+
 
 
 function exec_fun(fun, params, status) {

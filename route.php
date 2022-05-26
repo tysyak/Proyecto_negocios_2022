@@ -104,9 +104,17 @@ $router->get('/api/receta/titulo', function ($params) {
 });
 
 $router->get('/api/esfavorito', function ($params) {
-    $id_receta = (int)$params['id_receta'];
-    $username = $params['username'];
-    UsuarioController::es_favorito($username, $id_receta);
+    if (isset($_SESSION['username'])) {
+            $id_receta = (int)$params['id_receta'];
+            $username = $params['username'];
+            UsuarioController::cambiar_favorito($username, $id_receta);
+    } else{
+        echo json_encode([
+            'status' => 401,
+            'action' => 'nope',
+            'msg' => 'No has iniciado sessión'
+        ]);
+    }
 });
 
  $router->post('/api/receta/nuevo', function ($params) {

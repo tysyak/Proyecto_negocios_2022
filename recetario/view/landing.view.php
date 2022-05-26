@@ -34,7 +34,7 @@
         <i>Crea, comparte, busca y guarda <br>  tus recetas favoritas</i>
     </div>
     <div class="text-block-right">
-        <a href="<?= val_path('/recipes') ?>" class="btn btn-success">
+        <a href="<?= val_path('/recetas') ?>" class="btn btn-success">
             Empieza a Cocinar
         </a>
     </div>

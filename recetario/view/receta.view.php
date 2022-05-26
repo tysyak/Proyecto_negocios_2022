@@ -22,9 +22,9 @@
     <br>
     <?php if (isset($_SESSION['username'])): ?>
     <?php if ($data['favorito']): ?>
-        <button class="badge btn-danger" onclick="del_favoritos(<?= $data['id'] ?>">Eliminar de favoritos</button>
+        <button id='btn-fav-<?= $data['id'] ?>' class="badge btn-danger" onclick="toggle_fav(<?= $data['id'] ?>)">Eliminar de favoritos</button>
     <?php else: ?>
-        <button class="badge btn-success" onclick="add_favoritos(<?= $data['id'] ?>)">Añadir a favoritos</button>
+        <button id='btn-fav-<?= $data['id'] ?>' class="badge btn-success" onclick="toggle_fav(<?= $data['id'] ?>)">Añadir a favoritos</button>
         <?php endif;?>
     <?php endif;?>
 </div>

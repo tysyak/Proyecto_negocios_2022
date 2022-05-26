@@ -10,7 +10,7 @@
 
     <h3>Ayudamos a las personas a saber qué comer en función de sus preferencias e información personal</h3>
 
-    <img src="/recetario/assets/img/mission.png" alt="mission_img">
+    <img style="border-radius:20px;" src="/recetario/assets/img/mission.png" alt="mission_img">
 
     <p>Nuestro sistema de descubrimiento personalizado lo aprende mejor para brindarle un mejor servicio, así que.
         La pregunta "¿Qué hay para cenar?" Respondido incluso antes de que se hagan las preguntas.</p>

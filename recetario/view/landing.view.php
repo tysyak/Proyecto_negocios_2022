@@ -39,3 +39,7 @@
         </a>
     </div>
 </div>
+
+<div class="card-about" style="font-size:2vw;">
+    Ponemos todas las recetas del mundo en la palma de tu mano. La búsqueda de recetas más potente, los sitios de recetas que te encantan, tu caja de recetas digital y recomendaciones de recetas de comida solo para ti.
+</div>

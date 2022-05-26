@@ -180,6 +180,9 @@ section p {
     margin: 50px auto;
     transition: .25s ease;
     text-align: center;
+    background-color: rgba(255,223,185,0.8);
+    border-radius:20px;
+    font-size: 1.5vw;
 }
 
 .container {

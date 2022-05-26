@@ -21,17 +21,32 @@ class Receta
         $this->db = new DataBase();
     }
 
-    public function get_receta(int $id): array
+    public function get_receta(int $id, int $id_usuario=null): array
     {
-        $query = 'SELECT id, titulo, imagen FROM receta where id = :id order by id desc ';
+        if (is_null($id_usuario)) {
+            $query = 'SELECT id, titulo, imagen FROM receta where id = :id order by id desc ';
+        } else {
+            $query = 'SELECT r.id,r.titulo,if(ur.id_usuario = :id_usuario, true, false) favorito, r.imagen FROM receta r 
+                       left join usuario_receta ur on ur.id_receta = r.id
+                       where r.id = :id';
+        }
         $stmt = $this->db->prepare($query);
+
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        if (!is_null($id_usuario)) {
+            $stmt->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
+        }
         $stmt->execute();
         $resp = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($resp) {
             $this->id = $resp['id'];
             $this->titulo = $resp['titulo'];
             $this->image = $resp['imagen'] ?? null;
+            if (isset($resp['favorito'])){
+                $this->favorito = !($resp['favorito'] == 0);
+            } else {
+                $this->favorito = false;
+            }
             if (!is_null($this->image)) {
                 $this->image = base64_encode($this->image);
             }

@@ -7,8 +7,22 @@ $router = new Router();
 
 // RUTAS para vistas --------------------------------------
 
-$router->get('/recipes', function () use ($router) {
+$router->get('/recetas', function () use ($router) {
     $router->render('panel');
+});
+
+$router->get('/receta', function ($params) use ($router) {
+    if (isset($params['id'])) {
+        $id_usuario = isset($_SESSION['username'])
+            ? UsuarioController::get_id_usuario($_SESSION['username']) : null;
+
+        $router->render('receta', RecetaController::get_receta(
+            id: $params['id'],
+            id_usuario: $id_usuario
+        ));
+    } else {
+        $router->render('404');
+    }
 });
 
 $router->get('/', function() use ($router) {
@@ -31,6 +45,7 @@ $router->get('/login', function () use ($router) {
     if (!isset($_SESSION['username'])) {
         $router->render('/login');
     } else {
+        header('HTTP/1.0 404 Not Found');
         $router->render('/');
     }
 });

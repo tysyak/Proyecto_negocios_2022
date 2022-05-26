@@ -91,7 +91,7 @@ function val_path($path): string
 
 </body>
 <script src="/recetario/assets/js/app.js" type="application/javascript"></script>
-<?php if ($_SERVER['REQUEST_URI'] == '/recipes'): ?>
+<?php if ($_SERVER['REQUEST_URI'] == '/recetas'): ?>
     <script type="application/javascript">
         window.onload = () => {
             mostrar_modal('Esperando las recetas',

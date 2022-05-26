@@ -3,6 +3,7 @@ namespace Model;
 
 use PDO;
 use PDOException;
+use PDOStatement;
 use stdClass;
 
 class Receta
@@ -88,7 +89,7 @@ class Receta
         if (!is_null($id_usuario)) {
             $stmt->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
         }
-        return $this->extracted($stmt);
+        return $this->set_obj($stmt);
     }
 
     public function get_favorite_recipes_user(int $id_usuario) : array
@@ -101,7 +102,7 @@ class Receta
 
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
-        return $this->extracted($stmt);
+        return $this->set_obj($stmt);
     }
 
     public function set_imagen(int $id, $bin)
@@ -252,10 +253,10 @@ class Receta
     }
 
     /**
-     * @param bool|\PDOStatement $stmt
+     * @param bool|PDOStatement $stmt
      * @return array
      */
-    public function extracted(bool|\PDOStatement $stmt): array
+    private function set_obj(bool|PDOStatement $stmt): array
     {
         $stmt->execute();
 

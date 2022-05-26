@@ -1,4 +1,6 @@
 <?php
+
+use Controller\SuscripcionController;
 use Model\Router;
 use Controller\RecetaController;
 use Controller\UsuarioController;
@@ -43,7 +45,8 @@ $router->get('/subscripcion', function () use ($router) {
 
 $router->get('/subscripcion/nuevo', function () use ($router) {
     if (isset($_SESSION['username'])) {
-        $router->render('form-pago');
+        $data = SuscripcionController::get_all();
+        $router->render('form-pago', $data);
     } else {
         $router->render('/login');
     }

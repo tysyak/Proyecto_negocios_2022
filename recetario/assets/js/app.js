@@ -73,7 +73,7 @@ async function listar_receta() {
                 let img_src = receta.imagen == null ? 'src="/recetario/assets/img/food_default.png"'
                     : `src="data:image/png;base64,${receta.imagen}`;
                 html += '<div class="card">';
-                html += `<img alt="${receta.titulo}" id="image-${receta.id}" ${img_src}" style="width:100%">`;
+                html += `<img class='img-recipe' alt="${receta.titulo}" id="image-${receta.id}" ${img_src}" style="width:100%">`;
                 html += '<div class="container">';
                 html += '<h4><b>'+receta.titulo+'</b></h4>';
                 html += '<ul>';
@@ -86,7 +86,7 @@ async function listar_receta() {
                 html += `<input type="checkbox" class="read-more-state" id="${receta.id}" />`;
 
                 receta.pasos.forEach((paso => {
-                    html += '<p class="read-more-wrap"><br><span class="read-more-target">' +
+                    html += '<p class="read-more-wrap" style="text-align: justify;"><br><span class="read-more-target">' +
                         paso.descripcion +'</span></p> ';
                 }))
 
@@ -189,6 +189,7 @@ document.body.addEventListener("submit", async function (event) {
 async function edit_form_recipe(params){
     document.getElementById('id_receta').value = params.id;
     document.getElementById('titulo').value = params.titulo;
+    document.getElementById('image').className = 'class=\'img-recipe\'';
     document.getElementById('image').src = params.image == null ? '/recetario/assets/img/food_default.png'
         : `data:image/png;base64,${params.image}`;
     let html = '';

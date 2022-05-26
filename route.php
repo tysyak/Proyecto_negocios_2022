@@ -41,6 +41,14 @@ $router->get('/subscripcion', function () use ($router) {
     $router->render('subscripcion');
 });
 
+$router->get('/subscripcion/nuevo', function () use ($router) {
+    if (isset($_SESSION['username'])) {
+        $router->render('form-pago');
+    } else {
+        $router->render('/login');
+    }
+});
+
 $router->get('/login', function () use ($router) {
     if (!isset($_SESSION['username'])) {
         $router->render('/login');

@@ -234,7 +234,7 @@ document.body.addEventListener("submit", async function (event) {
 async function edit_form_recipe(params){
     document.getElementById('id_receta').value = params.id;
     document.getElementById('titulo').value = params.titulo;
-    document.getElementById('image').className = 'class=\'img-recipe\'';
+    document.getElementById('image').className = 'img-recipe';
     document.getElementById('image').src = params.image == null ? '/recetario/assets/img/food_default.png'
         : `data:image/png;base64,${params.image}`;
     let html = '';

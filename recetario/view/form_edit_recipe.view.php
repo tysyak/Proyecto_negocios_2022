@@ -1,6 +1,9 @@
 <?php
 /* @var array $data */
 ?>
+
+<div class="card-about">
+    <div class="container">
 <form name='cargar_receta_editar' id='cargar_receta_editar' method="GET" action="/api/receta"
       function="edit_form_recipe">
     <h3><label for="id_receta_to_edit">Seleccione una receta:</label></h3><br>
@@ -11,8 +14,13 @@
     </select>
     <button class="btn" type="submit">Obtener receta</button>
 </form>
+</div>
+</div>
 
 <hr>
+
+<div class="card-about">
+    <div class="container">
 <form name='receta_editar' id='receta_editar' method="post" action="/api/receta/editar"
       function="edit_recipe">
     <input type="hidden" id="id_receta" name="id_receta" value=""><br><br>
@@ -28,7 +36,7 @@
 
     <label for="image">Imagen:</label><br>
     <br>
-    <img alt="your image" id="image" src="/recetario/assets/img/food_default.png" />
+    <img class="img-recipe" alt="your image" id="image" src="/recetario/assets/img/food_default.png" />
     <br>
     <input accept="image/*" type='file' name="prev_image" id="prev_image" onchange="preview_image(event)" />
     <br><br>
@@ -43,3 +51,5 @@
     <br>
     <button class="btn btn-success" type="submit" id="new_receta" disabled>Cambiar</button>
 </form>
+    </div>
+</div>

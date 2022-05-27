@@ -2,20 +2,27 @@
 /* @var array $data */
 ?>
 
+<?php $receta = [] ;?>
 <div class="card-about">
     <div class="container">
 <form name='cargar_receta_editar' id='cargar_receta_editar' method="GET" action="/api/receta"
       function="edit_form_recipe">
     <h3><label for="id_receta_to_edit">Seleccione una receta:</label></h3><br>
     <select name="id_receta_to_edit" id="id_receta_to_edit" >
-        <?php foreach ($data as $recetas ): ?>
+        <?php foreach ($data['recetas'] as $recetas ): ?>
         <option value="<?= $recetas['id'] ?>"><?= $recetas['titulo'] ?></option>
+        <?php if (isset($data['id_receta'])) {
+            if($data['id_receta'] == $recetas['id']){
+                $receta = $recetas;
+            }
+        } ?>
         <?php endforeach;?>
     </select>
     <button class="btn" type="submit">Obtener receta</button>
 </form>
 </div>
 </div>
+
 
 <hr>
 
@@ -53,3 +60,12 @@
 </form>
     </div>
 </div>
+
+<?php if (!empty($receta)): ?>
+<script type="application/javascript">
+    console.log(<?= json_encode($receta) ?>)
+    window.onload = () => {
+        edit_form_recipe(<?= json_encode($receta) ?>);
+    }
+</script>
+<?php endif; ?>

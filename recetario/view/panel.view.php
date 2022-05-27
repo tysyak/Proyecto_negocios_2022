@@ -1,4 +1,5 @@
 <?php
+/* @var array $data */
 function val_path($path): string
 {
     if ($_SERVER['REQUEST_URI'] == $path) {
@@ -61,10 +62,13 @@ function val_path($path): string
                     </script>
                     <li class="list-item">
                         <a class="badge links " href="<?= val_path('/perfil') ?>" style="float: right;"><?= ucfirst(strtolower( $_SESSION['username'])) ?></a></li>
+                    <li class="list-item"><a class="links" href="<?= val_path('/recetas') ?>">Ver Recetas</a></li>
+                    <li class="list-item"><a class="links" href="<?= val_path('/recetas?f=true') ?>">Mis Recetas Favoritas</a></li>
                     <li class="list-item"><a class="links" href="<?= val_path('/receta/editar') ?>">Editar Mis Recetas</a></li>
                     <li class="list-item"><a class="links" href="<?= val_path('/receta/nueva') ?>">Nueva Receta</a></li>
                     <li class="list-item"><a class="badge links btn-danger" href="<?= val_path('/logout') ?>" style="float: right;">Cerrar Sesión</a></li>
                 <?php else: ?>
+                    <li class="list-item"><a class="links" href="<?= val_path('/recetas') ?>">Ver Recetas</a></li>
                     <li class="list-item"><a class="badge links" href="<?= val_path('/login') ?>" style="float: right;">Acceder</a></li>
                 <?php endif; ?>
             </ul>
@@ -92,12 +96,17 @@ function val_path($path): string
 
 </body>
 <script src="/recetario/assets/js/app.js" type="application/javascript"></script>
-<?php if ($_SERVER['REQUEST_URI'] == '/recetas'): ?>
+<?php if ($_SERVER['REQUEST_URI'] == '/recetas' || $_SERVER['REQUEST_URI'] == '/recetas?f=true'): ?>
     <script type="application/javascript">
         window.onload = () => {
             mostrar_modal('Esperando las recetas',
                 'Cargando','');
-            listar_receta();
+            listar_receta(<?php
+                if (!empty($data)) {
+                    echo json_encode($data);
+                }
+                ?>
+            );
             ocultar_modal();
         }
     </script>

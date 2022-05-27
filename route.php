@@ -9,8 +9,9 @@ $router = new Router();
 
 // RUTAS para vistas --------------------------------------
 
-$router->get('/recetas', function () use ($router) {
-    $router->render('panel');
+$router->get('/recetas', function ($params) use ($router) {
+    $data = isset($params['f']) ? ['f' => (bool)$params['f']] : ['f' => false];
+    $router->render('panel', $data);
 });
 
 $router->get('/receta', function ($params) use ($router) {
@@ -103,6 +104,7 @@ $router->get('/logout', function () use ($router) {
 
  $router->get('/api/receta', function ($params) {
      $id = isset($params['id']) ? (int)$params['id'] : null;
+     $only_fav = isset($params['f']);
      $id_usuario = isset($params['username'])
          ? UsuarioController::get_id_usuario($params['username']) : null;
      $limit = isset($params['limit']) ? (int)$params['limit'] : null;
@@ -111,7 +113,8 @@ $router->get('/logout', function () use ($router) {
          id: $id,
          id_usuario: $id_usuario,
          limit: $limit,
-         offset: $offset
+         offset: $offset,
+         only_fav: $only_fav
      );
  });
 

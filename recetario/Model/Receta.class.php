@@ -75,7 +75,13 @@ class Receta
         return $resp['id'];
     }
 
-    public function get_all(int $id_usuario=null,int $limit=null, int $offset=null, bool $only_user=false)
+    public function get_all(
+        int $id_usuario=null,
+        int $limit=null,
+        int $offset=null,
+        bool $only_user=false,
+        bool $only_fav=false
+    )
     {
         $this->pasos = [];
         if (is_null($id_usuario)) {
@@ -85,6 +91,7 @@ class Receta
                        left join usuario_receta ur on ur.id_receta = r.id 
                        ';
             $query .= ($only_user) ? 'where r.usuario_creador = :id_usuario' : '';
+            $query .= ($only_fav) ? 'where ur.id_usuario = :id_usuario' : '';
         }
         $query .= is_null($limit) ? '' : " limit $limit";
         $query .= is_null($offset) ? '' : " offset $offset";

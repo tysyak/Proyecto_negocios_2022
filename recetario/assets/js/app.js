@@ -57,11 +57,12 @@ window.onclick = function(event) {
 }
 
 // Fin de Modal
-async function listar_receta() {
+async function listar_receta(params) {
     let html = '<div class="cards">';
     let uri = '/api/receta';
     if (typeof username !== 'undefined') {
-        uri += '?username='+username
+        uri += '?username='+username;
+        uri += (params.f) ? '&f=true' : '';
     }
     await fetch(uri,{
         "method": "GET",

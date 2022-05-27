@@ -94,12 +94,18 @@ async function listar_receta() {
                 if (typeof username !== 'undefined') {
                     html += (receta.favorito) ? `<button id='btn-fav-${receta.id}' class="badge btn-danger" onclick="toggle_fav(${receta.id})">Eliminar de favoritos</button>` :
                         `<button id='btn-fav-${receta.id}' class="badge btn-success" onclick="toggle_fav(${receta.id})">Añadir a favoritos</button>`;
+                    if ( id_usuario == receta.usuario_creador) {
+                        html += `<span class="badge btn-success" onclick="window.location.href = '/receta/editar?id_receta=${receta.id}'">Editar</span>`;
+                    }
                 }
                 html += '</div>';
                 html += '</div>';
+                console.log(receta)
+
             });
             html += '</div>';
             html += '</div>';
+
         });
     document.getElementById('app').innerHTML = html;
 }

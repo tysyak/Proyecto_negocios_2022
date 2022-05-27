@@ -78,6 +78,7 @@ nav{
 
 .nav-sub{
     justify-content:space-between;
+    z-index: 3;
 }
 .list-item {
     padding: 10px 10px; display:inline-block;

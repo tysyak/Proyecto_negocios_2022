@@ -2,10 +2,11 @@
 
 <div class="card-about">
     <div class="container">
-        <form action="/subscripcion/registrar" method="post" name="form-suscribirse" id="form-suscribirse">
+        <form action="/api/subscripcion/usuario/registrar" method="post"
+              name="form-suscribirse" id="form-suscribirse">
             <label for="sub">Plan:</label>
             <select name="sub" id="sub" onchange="sel_plan(this)" required>
-                <option value="nope" >Selecciona un Plan</option>
+                <option id='sel-default' value="nope" >Selecciona un Plan</option>
                 <?php foreach ($data as $sub): ?>
                     <option value="<?= $sub['id'] ?>" precio="<?=$sub['precio']?>">
                         <?= $sub['precio'].' MXN$'.' - '.$sub['titulo'] ?>
@@ -61,4 +62,27 @@ function sel_plan(sel) {
         }
     });
 }
+
+
+const uri = '/api/suscripcion/usuario/info';
+
+ fetch(uri,{method: 'post'}).then( async response => {
+     const json = await response.json();
+     if (json.activo) {
+         let fecha = new Date(
+             json.fecha_termino.year,
+             json.fecha_termino.month - 1,
+             json.fecha_termino.day
+         );
+         fecha.toLocaleString('es-ES', { month: 'long' })
+          document.getElementById('sub-desc').innerHTML = 'Ya tienes una subscripcion activa:' +
+              '<h4>' + json.detalle.titulo + '</h4>' +
+              `<p>${fecha.getDate()}-${fecha.toLocaleString('default', { month: 'long' })}-${fecha.getUTCFullYear()}</p>`;
+            document.getElementById('sub').disabled = true
+            document.getElementById('sel-default').innerText = 'Ya Cuentas con una suscripción'
+            document.getElementById('tarjeta').disabled = true
+            document.getElementById('caducidad').disabled = true
+            document.getElementById('cvv').disabled = true
+        }});
+
 </script>

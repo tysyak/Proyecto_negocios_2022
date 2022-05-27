@@ -147,6 +147,50 @@ $router->post('/api/receta/editar', function ($params) {
         ::update_receta($id_receta,$titulo,$pasos,$materiales,$image, $borrar_imagen);
 });
 
+$router->post('/api/subscripcion/usuario/registrar', function ($params) {
+    if (isset($_SESSION['username'])) {
+        $id_sub = $params['sub'];
+        $id_usuario = UsuarioController::get_id_usuario($_SESSION['username']);
+        SuscripcionController::nueva_sub($id_sub, $id_usuario);
+    }  else {
+        echo json_encode([
+            'status' => 401,
+            'action' => 'nope',
+            'msg' => 'No has iniciado sessión'
+        ]);
+    }
+});
+
+$router->get('/api/suscripcion/info', function ($params) {
+    if (isset($_SESSION['username'])) {
+        $id_sub = $_SESSION['id_sub'];
+        $id_usuario = UsuarioController::get_id_usuario($_SESSION['username']);
+        SuscripcionController::get_info_sub($id_usuario, true);
+    }  else {
+        echo json_encode([
+            'status' => 200,
+            'action' => 'nope',
+            'msg' => 'No has iniciado sessión'
+        ]);
+    }
+});
+
+$router->post('/api/suscripcion/usuario/info', function () {
+    if (isset($_SESSION['username'])) {
+        $id_usuario = UsuarioController::get_id_usuario($_SESSION['username']);
+        if(SuscripcionController::tiene_sub_activa($id_usuario)['resp']) {
+            SuscripcionController::get_info_sub($id_usuario, true);
+        }
+    }  else {
+        echo json_encode([
+            'status' => 200,
+            'action' => 'nope',
+            'msg' => 'No has iniciado sessión'
+        ]);
+    }
+});
+
+
 $router->post('/api/session/login', function ($params) {
     $username = $params['username'];
     $password = $params['password'];

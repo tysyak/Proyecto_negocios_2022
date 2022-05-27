@@ -65,9 +65,14 @@ $router->add_not_found_handler(function () use ($router) {
     $router->render('404');
 });
 
-$router->get('/receta/editar', function () use ($router){
+$router->get('/receta/editar', function ($params) use ($router){
     if (isset($_SESSION['username'])) {
-        $datos = RecetaController::get_receta();
+        $datos_receta = RecetaController::get_receta(
+            id_usuario:  $_SESSION['id_usuario'],
+            only_user: true);
+        $datos = (isset($params['id_receta'])) ?
+            ['id_receta' =>  (int)$params['id_receta'], 'recetas' => $datos_receta]
+            : ['recetas' => $datos_receta];
         $router->render('form_edit_recipe', $datos);
     } else {
         header('HTTP/1.0 401 Unauthorized');
@@ -88,6 +93,7 @@ $router->get('/receta/nueva', function () use ($router){
 $router->get('/logout', function () use ($router) {
     unset($_SESSION['username']);
     unset($_SESSION['password']);
+    unset($_SESSION['id_usuario']);
     $router->render('logout');
 
 

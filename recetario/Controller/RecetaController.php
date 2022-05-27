@@ -7,7 +7,13 @@ use Model\Receta;
 
 class RecetaController
 {
-    static function get_receta(int $id = null, int $limit = null, int $offset = null, int $id_usuario = null, bool $only_user=false): array
+    static function get_receta(
+        int $id = null,
+        int $limit = null,
+        int $offset = null,
+        int $id_usuario = null,
+        bool $only_user=false
+    ): array
     {
         $recipe = new Receta();
 
@@ -20,7 +26,13 @@ class RecetaController
         }
     }
 
-    static function get_receta_json(int $id = null, int $id_usuario = null, int $limit = null, int $offset = null): void
+    static function get_receta_json(
+        int $id = null,
+        int $id_usuario = null,
+        int $limit = null,
+        int $offset = null,
+        bool $only_fav = false
+    ): void
     {
         header('Content-Type: application/json');
 
@@ -30,7 +42,8 @@ class RecetaController
             $recipe->get_all(
                 id_usuario: $id_usuario,
                 limit: $limit,
-                offset: $offset
+                offset: $offset,
+                only_fav: $only_fav
             );
             header("HTTP/1.1 200 OK");
             echo json_encode($recipe->manny);

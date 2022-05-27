@@ -19,7 +19,7 @@ class SuscripcionController
 
         $sub->nueva_sub($id_sub, $id_usuario);
 
-        echo '{ "status": 201, "msg": "Enhorabuena, Ahora eres Premium" }';
+        echo '{ "status": 201, "msg": "Enhorabuena, Ahora eres Premium'.'<meta http-equiv=\'refresh\' content=\'1; url=/subscripcion/nuevo \'/>'.'" }';
     }
 
     public static function get_info_sub(int $id_usuario, bool $echo=false) : array

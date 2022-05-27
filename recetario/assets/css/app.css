@@ -114,7 +114,7 @@ nav{
     background-color: sandybrown;
     transition: 0.4s;
 }
-@media only screen and (max-width:767px){
+@media only screen and (max-width:1067px){
     .nav-sub{
         position:absolute;
         top:10vh;
@@ -173,7 +173,7 @@ section p {
     margin: auto;
     display: grid;
     gap: 1rem;
-    grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(590px, 1fr));
 }
 
 .card-about {

@@ -173,6 +173,7 @@ function exec_fun(fun, params, status) {
                 'success'); break;
         default:
             switch (status){
+                case 201:
                 case 200:
                     ocultar_modal();
                     mostrar_modal(
@@ -181,6 +182,7 @@ function exec_fun(fun, params, status) {
                         '',
                         'success');
                     break;
+                case 401:
                 case 404:
                     ocultar_modal();
                     mostrar_modal('Hubo un problema, la solicitud no existe',

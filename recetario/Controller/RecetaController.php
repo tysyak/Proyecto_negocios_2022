@@ -7,12 +7,14 @@ use Model\Receta;
 
 class RecetaController
 {
-    static function get_receta(int $id = null, int $limit = null, int $offset = null, int $id_usuario = null): array
+    static function get_receta(int $id = null, int $limit = null, int $offset = null, int $id_usuario = null, bool $only_user=false): array
     {
         $recipe = new Receta();
 
         if (is_null($id)) {
-            return $recipe->get_all($limit, $offset);
+            return $recipe->get_all(
+                id_usuario: $id_usuario,
+                limit: $limit, offset: $offset, only_user: $only_user);
         } else {
             return $recipe->get_receta($id, $id_usuario);
         }

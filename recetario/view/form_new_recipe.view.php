@@ -1,4 +1,6 @@
-<form method="POST" action="/api/receta/nuevo"
+<div class="card-about">
+    <div class="container">
+        <form method="POST" action="/api/receta/nuevo"
       name='nueva_receta' id='nueva_receta_editar'>
     <input type="hidden" id="id_receta" name="id_receta" value=""><br><br>
     <label for="titulo">Titulo:</label>
@@ -6,7 +8,7 @@
     <label for="image">Imagen:</label><br>
     <input accept="image/png" type='file' id="prev_image" name="prev_image" onchange="preview_image(event)" />
     <br>
-    <img alt="your image" id="image" src="/recetario/assets/img/food_default.png" />
+    <img class='img-recipe' alt="your image" id="image" src="/recetario/assets/img/food_default.png" />
     <br><br>
     <button class="btn" type="button" onclick="agregar_material()">Agregar Material</button>
     <button class="btn btn-danger" type="button" onclick="eliminar_material()">Eliminar Material</button>
@@ -22,3 +24,5 @@
     <br>
     <button class="btn" type="submit" id="nueva_receta" >Crear Receta</button>
 </form>
+    </div>
+</div>

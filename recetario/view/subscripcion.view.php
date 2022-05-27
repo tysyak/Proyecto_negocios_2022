@@ -48,7 +48,7 @@
         <hr style="border-top: 1px dashed #FE8019;">
 
         <h2>¿Qué estás esperando? subscribete </h2>
-        <a class="btn btn-success" href="<?= val_path('/pago/new')?>"><h1>Configura tu pago</h1></a>
+        <a class="btn btn-success" href="<?= val_path('/subscripcion/nuevo')?>"><h1>Configura tu pago</h1></a>
 
     </div>
 </div>

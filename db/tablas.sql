@@ -80,3 +80,17 @@ create table usuario_subscripcion(
     inicio timestamp default CURRENT_TIMESTAMP(),
     fin timestamp not null -- this.incio + interval duracion MONTH
 );
+
+CREATE view historico_subscripciones as
+select
+    u.id as id_usuario ,
+    u.username as usuario,
+    s.id as id_subscripcion,
+    s.titulo as titulo_subscripcion,
+    us.inicio as inicio_subscripcion,
+    us.fin as fin_subscripcion,
+    CURRENT_DATE() <= us.fin as subscripcion_activa,
+    s.precio as precio
+from usuario_subscripcion us
+         inner join subscripciones s ON s.id = us.id_subscripcion
+         INNER join usuario u on u.id = us.id_usuario ;

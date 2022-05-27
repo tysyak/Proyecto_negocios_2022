@@ -94,12 +94,18 @@ async function listar_receta() {
                 if (typeof username !== 'undefined') {
                     html += (receta.favorito) ? `<button id='btn-fav-${receta.id}' class="badge btn-danger" onclick="toggle_fav(${receta.id})">Eliminar de favoritos</button>` :
                         `<button id='btn-fav-${receta.id}' class="badge btn-success" onclick="toggle_fav(${receta.id})">Añadir a favoritos</button>`;
+                    if ( id_usuario == receta.usuario_creador) {
+                        html += `<span class="badge btn-success" onclick="window.location.href = '/receta/editar?id_receta=${receta.id}'">Editar</span>`;
+                    }
                 }
                 html += '</div>';
                 html += '</div>';
+                console.log(receta)
+
             });
             html += '</div>';
             html += '</div>';
+
         });
     document.getElementById('app').innerHTML = html;
 }
@@ -167,6 +173,7 @@ function exec_fun(fun, params, status) {
                 'success'); break;
         default:
             switch (status){
+                case 201:
                 case 200:
                     ocultar_modal();
                     mostrar_modal(
@@ -175,6 +182,7 @@ function exec_fun(fun, params, status) {
                         '',
                         'success');
                     break;
+                case 401:
                 case 404:
                     ocultar_modal();
                     mostrar_modal('Hubo un problema, la solicitud no existe',
@@ -234,7 +242,7 @@ document.body.addEventListener("submit", async function (event) {
 async function edit_form_recipe(params){
     document.getElementById('id_receta').value = params.id;
     document.getElementById('titulo').value = params.titulo;
-    document.getElementById('image').className = 'class=\'img-recipe\'';
+    document.getElementById('image').className = 'img-recipe';
     document.getElementById('image').src = params.image == null ? '/recetario/assets/img/food_default.png'
         : `data:image/png;base64,${params.image}`;
     let html = '';

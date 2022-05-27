@@ -1,4 +1,6 @@
 <?php
+
+use Controller\SuscripcionController;
 use Model\Router;
 use Controller\RecetaController;
 use Controller\UsuarioController;
@@ -41,6 +43,15 @@ $router->get('/subscripcion', function () use ($router) {
     $router->render('subscripcion');
 });
 
+$router->get('/subscripcion/nuevo', function () use ($router) {
+    if (isset($_SESSION['username'])) {
+        $data = SuscripcionController::get_all();
+        $router->render('form-pago', $data);
+    } else {
+        $router->render('/login');
+    }
+});
+
 $router->get('/login', function () use ($router) {
     if (!isset($_SESSION['username'])) {
         $router->render('/login');
@@ -54,9 +65,14 @@ $router->add_not_found_handler(function () use ($router) {
     $router->render('404');
 });
 
-$router->get('/receta/editar', function () use ($router){
+$router->get('/receta/editar', function ($params) use ($router){
     if (isset($_SESSION['username'])) {
-        $datos = RecetaController::get_receta();
+        $datos_receta = RecetaController::get_receta(
+            id_usuario:  $_SESSION['id_usuario'],
+            only_user: true);
+        $datos = (isset($params['id_receta'])) ?
+            ['id_receta' =>  (int)$params['id_receta'], 'recetas' => $datos_receta]
+            : ['recetas' => $datos_receta];
         $router->render('form_edit_recipe', $datos);
     } else {
         header('HTTP/1.0 401 Unauthorized');
@@ -77,6 +93,7 @@ $router->get('/receta/nueva', function () use ($router){
 $router->get('/logout', function () use ($router) {
     unset($_SESSION['username']);
     unset($_SESSION['password']);
+    unset($_SESSION['id_usuario']);
     $router->render('logout');
 
 
@@ -135,6 +152,50 @@ $router->post('/api/receta/editar', function ($params) {
     RecetaController
         ::update_receta($id_receta,$titulo,$pasos,$materiales,$image, $borrar_imagen);
 });
+
+$router->post('/api/subscripcion/usuario/registrar', function ($params) {
+    if (isset($_SESSION['username'])) {
+        $id_sub = $params['sub'];
+        $id_usuario = UsuarioController::get_id_usuario($_SESSION['username']);
+        SuscripcionController::nueva_sub($id_sub, $id_usuario);
+    }  else {
+        echo json_encode([
+            'status' => 401,
+            'action' => 'nope',
+            'msg' => 'No has iniciado sessión'
+        ]);
+    }
+});
+
+$router->get('/api/suscripcion/info', function ($params) {
+    if (isset($_SESSION['username'])) {
+        $id_sub = $_SESSION['id_sub'];
+        $id_usuario = UsuarioController::get_id_usuario($_SESSION['username']);
+        SuscripcionController::get_info_sub($id_usuario, true);
+    }  else {
+        echo json_encode([
+            'status' => 200,
+            'action' => 'nope',
+            'msg' => 'No has iniciado sessión'
+        ]);
+    }
+});
+
+$router->post('/api/suscripcion/usuario/info', function () {
+    if (isset($_SESSION['username'])) {
+        $id_usuario = UsuarioController::get_id_usuario($_SESSION['username']);
+        if(SuscripcionController::tiene_sub_activa($id_usuario)['resp']) {
+            SuscripcionController::get_info_sub($id_usuario, true);
+        }
+    }  else {
+        echo json_encode([
+            'status' => 200,
+            'action' => 'nope',
+            'msg' => 'No has iniciado sessión'
+        ]);
+    }
+});
+
 
 $router->post('/api/session/login', function ($params) {
     $username = $params['username'];

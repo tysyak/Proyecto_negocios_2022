@@ -13,6 +13,7 @@ class UsuarioController
 
         if ($user->check_user_password($username, hash('sha512',$password))) {
             $_SESSION['username'] = $username;
+            $_SESSION['id_usuario'] = self::get_id_usuario($username);
             $_SESSION['valid'] = true;
             $_SESSION['timeout'] = time();
             header("HTTP/1.1 200 OK");

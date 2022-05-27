@@ -16,7 +16,7 @@ class Suscripcion
     public int $meses_duracion;
     public array $creation_time;
     public bool $activo;
-    public array $manny;
+    public array $manny = [];
 
 
     public function __construct()

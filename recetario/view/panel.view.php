@@ -25,25 +25,25 @@ function val_path($path): string
 
 <body>
 
-<!--   El Modal   -->
-<div id="gen-modal" class="modal">
+    <!--   El Modal   -->
+    <div id="gen-modal" class="modal">
 
-    <!-- Modal content -->
-    <div class="modal-content">
-        <div class="modal-header" id="modal-header" >
-            <span class="close-modal" onclick="ocultar_modal()">&times;</span>
-            <h2 >Modal Header</h2>
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-header" id="modal-header">
+                <span class="close-modal" onclick="ocultar_modal()">&times;</span>
+                <h2>Modal Header</h2>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <p>Some text in the Modal Body</p>
+                <p>Some other text...</p>
+            </div>
+            <div class="modal-footer" id="modal-footer">
+                <h3>Modal Footer</h3>
+            </div>
         </div>
-        <div class="modal-body" id="modal-body">
-            <p>Some text in the Modal Body</p>
-            <p>Some other text...</p>
-        </div>
-        <div class="modal-footer" id="modal-footer">
-            <h3>Modal Footer</h3>
-        </div>
+
     </div>
-
-</div>
 
     <header>
         <nav class="navbar">
@@ -55,19 +55,20 @@ function val_path($path): string
                 <span class="bar3"></span>
             </div>
             <ul class="nav-sub">
-                <?php if (isset($_SESSION['username'])): ?>
+                <?php if (isset($_SESSION['username'])) : ?>
                     <script type="application/javascript">
-                        const username = '<?=$_SESSION['username'] ?>';
-                        const id_usuario = '<?=$_SESSION['id_usuario'] ?>';
+                        const username = '<?= $_SESSION['username'] ?>';
+                        const id_usuario = '<?= $_SESSION['id_usuario'] ?>';
                     </script>
                     <li class="list-item">
-                        <a class="badge links " href="<?= val_path('/perfil') ?>" style="float: right;"><?= ucfirst(strtolower( $_SESSION['username'])) ?></a></li>
+                        <a class="badge links " href="<?= val_path('/perfil') ?>" style="float: right;"><?= ucfirst(strtolower($_SESSION['username'])) ?></a>
+                    </li>
                     <li class="list-item"><a class="links" href="<?= val_path('/recetas') ?>">Ver Recetas</a></li>
                     <li class="list-item"><a class="links" href="<?= val_path('/recetas?f=true') ?>">Mis Recetas Favoritas</a></li>
                     <li class="list-item"><a class="links" href="<?= val_path('/receta/editar') ?>">Editar Mis Recetas</a></li>
                     <li class="list-item"><a class="links" href="<?= val_path('/receta/nueva') ?>">Nueva Receta</a></li>
                     <li class="list-item"><a class="badge links btn-danger" href="<?= val_path('/logout') ?>" style="float: right;">Cerrar Sesión</a></li>
-                <?php else: ?>
+                <?php else : ?>
                     <li class="list-item"><a class="links" href="<?= val_path('/recetas') ?>">Ver Recetas</a></li>
                     <li class="list-item"><a class="badge links" href="<?= val_path('/login') ?>" style="float: right;">Acceder</a></li>
                 <?php endif; ?>
@@ -89,26 +90,32 @@ function val_path($path): string
     <footer>
         <a class="badge" href="<?= val_path('/subscripcion') ?>">Suscribete</a>
         <a href="<?= val_path('/about') ?>">Acerca de</a>
-        <p>Autor: Cristian Romero Andrade<br>
-            <a href="mailto:mascrit@gmail.com">mascrit@gmail.com</a>
-        </p>
+        <p>Autores:</p>
+
+        <a href="mailto:mascrit@gmail.com">Cristian Romero Andrade<br></a>
+
+        <a href="#">Victor Anizar Morales</a>
+
+
+
+
     </footer>
 
 </body>
 <script src="/recetario/assets/js/app.js" type="application/javascript"></script>
-<?php if ($_SERVER['REQUEST_URI'] == '/recetas' || $_SERVER['REQUEST_URI'] == '/recetas?f=true'): ?>
+<?php if ($_SERVER['REQUEST_URI'] == '/recetas' || $_SERVER['REQUEST_URI'] == '/recetas?f=true') : ?>
     <script type="application/javascript">
         window.onload = () => {
             mostrar_modal('Esperando las recetas',
-                'Cargando','');
+                'Cargando', '');
             listar_receta(<?php
-                if (!empty($data)) {
-                    echo json_encode($data);
-                }
-                ?>
-            );
+                            if (!empty($data)) {
+                                echo json_encode($data);
+                            }
+                            ?>);
             ocultar_modal();
         }
     </script>
 <?php endif; ?>
+
 </html>

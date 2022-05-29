@@ -33,6 +33,26 @@ class UsuarioController
         return $user->get_usuario($username)['id'];
     }
 
+    static function get_datos(string $username): array
+    {
+        $user = new Usuario();
+        $datos =  $user->get_datos($username);
+        if (!empty($datos)) {
+            $datos['apellido_materno'] = is_null($datos['apellido_materno']) ? '' : $datos['apellido_materno'];
+            return $datos;
+        }
+        $datos['username'] = $_SESSION['username'];
+        $datos['nombre'] = 'John';
+        $datos['apellido_paterno'] = 'Doe';
+        $datos['apellido_materno'] = '';
+        $datos['fecha_nacimiento'] ='1997-07-15';
+        $datos['estatura'] = 120;
+        $datos['peso']=60.0;
+
+        return $datos;
+
+    }
+
     static function cambiar_favorito(string $username, int $id_receta): void
     {
         $user = new Usuario();
@@ -56,7 +76,36 @@ class UsuarioController
                 'msg' => 'Se añadió la receta a tus recetas favoritas'
             ]);
         }
+    }
 
+    static function update_datos(
+        string $nombre,
+        string $apellido_paterno,
+        string|null $apellido_materno,
+        string $fecha_nacimiento,
+        int $estatura,
+        float $peso
+    )
+    {
 
+        $user = new Usuario();
+
+        $actualizar = !is_null($user->get_datos($_SESSION['username']));
+        $user->set_datos(
+            $nombre,
+            $apellido_paterno,
+            $apellido_materno,
+            $fecha_nacimiento,
+            $estatura,
+            $peso,
+            $actualizar
+        );
+
+        header("HTTP/1.1 201 OK");
+        header('Content-Type: application/json');
+        echo json_encode([
+                'status' => 200,
+                'msg' => 'Se Actualizarón tus datos'
+            ]);
     }
 }

@@ -100,6 +100,16 @@ $router->get('/logout', function () use ($router) {
 
 });
 
+$router->get('/perfil', function () use ($router) {
+    if (isset($_SESSION['username'])) {
+        $data = UsuarioController::get_datos($_SESSION['username']);
+        $router->render('form-datos-usuario', $data);
+    } else {
+        header('HTTP/1.0 401 Unauthorized');
+        $router->render('401');
+    }
+});
+
 // Rutas exclusivas para JSON -----------------------------
 
  $router->get('/api/receta', function ($params) {
@@ -199,6 +209,23 @@ $router->post('/api/suscripcion/usuario/info', function () {
     }
 });
 
+$router->post('/api/perfil/editar', function ($params) {
+    $nombre = $params['n'];
+    $ap = $params['ap'];
+    switch ($params['am']) {
+        case '':
+            $am = null;
+            break;
+        default:
+            $am = $params['am'];
+    }
+    $nac = $params['nac'];
+    $estatura = (int)$params['estatura'];
+    $peso = (float)$params['peso'];
+    UsuarioController::update_datos(
+        $nombre,$ap,$am,$nac,$estatura,$peso
+    );
+});
 
 $router->post('/api/session/login', function ($params) {
     $username = $params['username'];

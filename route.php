@@ -133,6 +133,12 @@ $router->get('/api/receta/titulo', function ($params) {
     RecetaController::get_id_receta_by_title($titulo);
 });
 
+$router->get('/api/receta/buscar', function ($params) {
+    $titulo = $params['titulo'];
+    $id_usuario = isset($_SESSION['id_usuario']) ? (int)$_SESSION['id_usuario'] : null;
+    RecetaController::buscar_receta_titulo($titulo, $id_usuario);
+});
+
 $router->get('/api/esfavorito', function ($params) {
     if (isset($_SESSION['username'])) {
             $id_receta = (int)$params['id_receta'];
@@ -212,13 +218,7 @@ $router->post('/api/suscripcion/usuario/info', function () {
 $router->post('/api/perfil/editar', function ($params) {
     $nombre = $params['n'];
     $ap = $params['ap'];
-    switch ($params['am']) {
-        case '':
-            $am = null;
-            break;
-        default:
-            $am = $params['am'];
-    }
+    $am = $params['am'] === '' ? null : $params['am'];
     $nac = $params['nac'];
     $estatura = (int)$params['estatura'];
     $peso = (float)$params['peso'];

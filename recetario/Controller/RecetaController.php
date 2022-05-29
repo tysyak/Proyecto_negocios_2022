@@ -125,4 +125,11 @@ class RecetaController
         echo json_encode(['status' => 200, 'titulo' => $title, 'msg' => "Se actualizó '<b>$title</b>'"]);
 
     }
+
+    static function buscar_receta_titulo(string $titulo, int $id_usuario = null)
+    {
+        $receta = new Receta();
+
+        echo json_encode($receta->buscar_receta($titulo, $id_usuario));
+    }
 }

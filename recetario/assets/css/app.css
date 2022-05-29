@@ -302,6 +302,26 @@ input[type=password], select {
     font-size: larger;
 }
 
+input[type=date] {
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    box-sizing: border-box;
+    font-size: larger;
+}
+
+input[type=number] {
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    box-sizing: border-box;
+    font-size: larger;
+}
+
 input[type=submit] {
     width: 70%;
     background-color: #48c78e;

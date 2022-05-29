@@ -116,11 +116,11 @@ class Usuario
     /**
      * Get a user from db
      * @param string $username
-     * @return void
+     * @return array
      */
     public function get_usuario(string $username): array
     {
-        $query = "select id, username, creation_time, modification_time from usuario where upper(username) = upper(:username)";
+        $query = "select id, username, creation_time, modification_time from usuario where upper(username) = upper( :username )";
         $stmt = $this->db->prepare($query);
 
         $stmt->bindParam(':username', $username);
@@ -131,6 +131,55 @@ class Usuario
             $this->set($resp['id'],$resp['username'],$resp['creation_time'],$resp['modification_time'],true);
         }
         return (array)$this;
+    }
+
+    public function get_datos(string $username): array
+    {
+        $query = 'SELECT username , nombre, apellido_paterno, apellido_materno, fecha_nacimiento, estatura, peso, modification_time from datos_usuario du where upper(username) = upper( :username )';
+        $stmt = $this->db->prepare($query);
+
+        $stmt->bindParam(':username', $username);
+
+        $stmt->execute();
+        $resp = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return (!$resp) ? [] : $resp;
+    }
+
+    public function set_datos(
+        string $nombre,
+        string $apellido_paterno,
+        string|null $apellido_materno,
+        string $fecha_nacimiento,
+        int $estatura,
+        float $peso,
+        $actualizar=true
+    ) : void
+    {
+        if ($actualizar) {
+            $query = "UPDATE datos_usuario
+                SET nombre=:nombre, apellido_paterno=:apellido_paterno, apellido_materno=:apellido_materno, fecha_nacimiento=:fecha_nacimiento, estatura=:estatura, peso=:peso, modification_time=current_timestamp()
+                WHERE username=:username";
+        } else {
+            $query = "INSERT INTO datos_usuario
+                (username, nombre, apellido_paterno, apellido_materno, fecha_nacimiento, estatura, peso, modification_time)
+                VALUES(upper(:username), :nombre, :apellido_paterno, :apellido_materno, :fecha_nacimiento, :estatura, :peso, current_timestamp())";
+        }
+        $stmt = $this->db->prepare($query);
+
+        $stmt->bindParam(':username',$_SESSION['username']);
+
+        $stmt->bindParam(':nombre',$nombre);
+        $stmt->bindParam(':apellido_paterno',$apellido_paterno);
+        if (!is_null($apellido_materno))
+            $stmt->bindParam(':apellido_materno',$apellido_materno);
+        else
+            $stmt->bindParam(':apellido_materno',$apellido_materno, PDO::PARAM_NULL);
+        $stmt->bindParam(':fecha_nacimiento',$fecha_nacimiento);
+        $stmt->bindParam(':estatura',$estatura,PDO::PARAM_INT);
+        $stmt->bindParam(':peso',$peso);
+
+        $stmt->execute();
     }
 
     /**

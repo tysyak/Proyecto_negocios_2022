@@ -116,7 +116,7 @@ class Usuario
     /**
      * Get a user from db
      * @param string $username
-     * @return void
+     * @return array
      */
     public function get_usuario(string $username): array
     {

@@ -85,7 +85,7 @@ class UsuarioController
         string $fecha_nacimiento,
         int $estatura,
         float $peso
-    )
+    ): void
     {
 
         $user = new Usuario();

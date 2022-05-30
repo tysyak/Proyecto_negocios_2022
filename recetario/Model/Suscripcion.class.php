@@ -64,7 +64,7 @@ class Suscripcion
 
         $stmt->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
 
-        $resp = $stmt->execute();
+        $stmt->execute();
 
         $resp = $stmt->fetch(PDO::FETCH_ASSOC);
 

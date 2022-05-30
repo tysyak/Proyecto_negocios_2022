@@ -224,6 +224,25 @@ class Receta
         return $this->search_id_receta_by_title($titulo);
     }
 
+    public function buscar_receta(string $titulo, int $id_usuario=null)
+    {
+        $titulo = '%'.strtoupper($titulo).'%';
+        if (is_null($id_usuario)) {
+            $query = 'SELECT id, titulo, imagen, usuario_creador FROM receta ';
+        } else {
+            $query = 'SELECT r.id,r.titulo,if(ur.id_usuario = :id_usuario, true, false) favorito, r.imagen, r.usuario_creador FROM receta r 
+                       left join usuario_receta ur on ur.id_receta = r.id 
+                       ';
+        }
+        $query .= "where upper(titulo) like :titulo";
+        $stmt = $this->db->prepare($query);
+        if (!is_null($id_usuario)) {
+            $stmt->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
+        }
+        $stmt->bindParam(':titulo', $titulo);
+
+        return $this->set_obj($stmt);
+    }
     private function get_receta_materiales(int $id_receta): void
     {
         $query = 'SELECT id_material,descripcion FROM receta_materiales where id_receta = :id_receta order by id_material asc';

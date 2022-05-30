@@ -14,7 +14,7 @@ let modal = document.getElementById("gen-modal");
 // Get the <span> element that closes the modal
 
 // When the user clicks on <span> (x), close the modal
-function mostrar_modal(cuerpo, titulo, pie, tipo='warn') {
+function mostrar_modal(cuerpo, titulo='', pie='', tipo='warn') {
     let header = document.getElementById('modal-header');
     let body = document.getElementById('modal-body');
     let footer = document.getElementById('modal-footer');
@@ -58,7 +58,8 @@ window.onclick = function(event) {
 
 // Fin de Modal
 async function listar_receta(params) {
-    let html = '<div class="cards">';
+    let html = '<input type="text" id="r" name="r" placeholder="Titulo de la Receta..." minlength="4" maxlength="20"  autocomplete="Off" ><button type=button class="btn btn-success" onclick="buscar()" id="btn-buscar_receta" >Buscar</button>';
+    html += '<div class="cards">';
     let uri = '/api/receta';
     if (typeof username !== 'undefined') {
         uri += '?username='+username;
@@ -70,6 +71,7 @@ async function listar_receta(params) {
     }).then(response => response.json())
         .catch(error => console.error('Error:', error))
         .then(async response => {
+
             response.forEach((receta) => {
                 let img_src = receta.imagen == null ? 'src="/recetario/assets/img/food_default.png"'
                     : `src="data:image/png;base64,${receta.imagen}`;
@@ -101,7 +103,6 @@ async function listar_receta(params) {
                 }
                 html += '</div>';
                 html += '</div>';
-                console.log(receta)
 
             });
             html += '</div>';
@@ -259,6 +260,127 @@ async function edit_form_recipe(params){
     document.getElementById('materiales').innerHTML = html;
     document.getElementById('new_receta').disabled=false;
     ocultar_modal();
+}
+
+async function buscar() {
+    let app = document.getElementById('app');
+    const query = document.getElementById('r').value;
+    const len  = query.length;
+    const search = document.createElement('input');
+    const btn_search = document.createElement('button');
+    search.type='text';
+    search.id = 'r';
+    search.name = 'r';
+    search.placeholder = 'Titulo de la Receta...';
+    search.minLength = 4;
+    search.maxLength = 10;
+    btn_search.type = 'button';
+    btn_search.className = 'btn btn-success';
+    btn_search.setAttribute('onclick', 'buscar()');
+    btn_search.id = 'btn-buscar_receta';
+    btn_search.innerText = 'Buscar';
+    search.autocomplete = false;
+
+    app.innerHTML = '';
+
+    if (len > 3 && len <= 10) {
+        const uri = '/api/receta/buscar?titulo=' + query
+        let html = document.createElement('div');
+        const response = await fetch(uri).then(response => response.json())
+            .catch(error => {
+                mostrar_modal('No se encontró ninguna receta :-(', 'Error', '')
+            })
+            .then(async response => {
+                html.className = 'cards';
+                if (typeof response !== 'undefined') {
+                        response.forEach(receta => {
+                            let card_receta = document.createElement('div');
+                            let card_container = document.createElement('div');
+                            let card_img = document.createElement('img');
+                            let card_titulo = document.createElement('h4');
+                            let container_lista_material = document.createElement('ul');
+                            let input_rm_state = document.createElement('input');
+                            let container_paso = document.createElement('p');
+                            let span_paso = document.createElement('span');
+                            let label_trigger = document.createElement('label');
+
+                            card_receta.className = 'card';
+                            console.log(receta)
+                            card_titulo.innerText = receta.titulo;
+
+                            card_img.className = 'img-recipe';
+                            card_img.id = 'image-' + receta.id;
+                            card_img.src = receta.imagen == null
+                                ? '/recetario/assets/img/food_default.png'
+                                : `data:image/png;base64,${receta.imagen}`;
+
+                            card_container.className = 'container';
+
+                            receta.materiales.forEach(material => {
+                                let container_material = document.createElement('li');
+                                container_material.innerText = material.descripcion;
+                                container_lista_material.appendChild(container_material);
+                            });
+
+                            input_rm_state.className = 'read-more-state';
+                            input_rm_state.id = receta.id;
+                            input_rm_state.type = 'checkbox';
+
+                            receta.pasos.forEach(paso => {
+                                container_paso.className = 'read-more-wrap';
+                                container_paso.style = 'text-align: justify;';
+                                container_paso.appendChild(document.createElement('br'));
+                                span_paso.className = 'read-more-target';
+                                span_paso.innerText = paso.descripcion;
+                                container_paso.appendChild(span_paso);
+                            });
+
+                            label_trigger.className = 'btn read-more-trigger';
+                            label_trigger.htmlFor = receta.id;
+
+                            card_container.appendChild(card_titulo);
+                            card_container.appendChild(container_lista_material);
+                            card_container.appendChild(input_rm_state);
+                            card_container.appendChild(container_paso);
+                            container_paso.appendChild(document.createElement('br'));
+                            card_container.appendChild(label_trigger)
+
+                            card_receta.appendChild(card_img);
+                            card_receta.appendChild(card_container);
+
+
+
+                            if (typeof username !== 'undefined') {
+                                card_container.appendChild(document.createElement('br'));
+                                let btn_fav = document.createElement('button');
+                                btn_fav.className = (receta.favorito) ? 'badge btn-danger' : 'badge btn-success';
+                                btn_fav.id = 'btn-fav-' + receta.id;
+                                btn_fav.setAttribute('onclick', 'toggle_fav('+ receta.id +')');
+                                btn_fav.innerText = (receta.favorito) ? 'Eliminar de favoritos' : 'Añadir de favoritos';
+                                card_container.appendChild(btn_fav);
+                                if (id_usuario == receta.usuario_creador) {
+                                    let btn_edit = document.createElement('span');
+                                    btn_edit.className = 'badge btn-success';
+                                    btn_edit.setAttribute('onclick', `window.location.href = '/receta/editar?id_receta=${receta.id}'`);
+                                    btn_edit.innerText = 'Editar'
+                                    card_container.appendChild(btn_edit)
+                                }
+                            }
+
+                            app.appendChild(search);
+                            app.appendChild(btn_search);
+                            app.appendChild(card_receta);
+
+                        })
+                } else {
+                    app.appendChild(search);
+                    app.appendChild(btn_search);
+                }
+
+            });
+    } else {
+        mostrar_modal('Procura poner un texto mayor a 3 y menor a 10 caracteres<br><b>'+query+'</b>','Error','');
+    }
 }
 
 function agregar_material(){

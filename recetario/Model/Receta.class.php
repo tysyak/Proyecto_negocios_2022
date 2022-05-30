@@ -13,7 +13,7 @@ class Receta
     public string $titulo;
     public array $materiales;
     public array $pasos;
-    public array $manny;
+    public array $manny = [];
     public bool $favorito;
     public int|null $usuario_creador;
     public string|null $image;

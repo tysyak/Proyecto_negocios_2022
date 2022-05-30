@@ -90,7 +90,7 @@ class UsuarioController
 
         $user = new Usuario();
 
-        $actualizar = !is_null($user->get_datos($_SESSION['username']));
+        $actualizar = !empty($user->get_datos($_SESSION['username']));
         $user->set_datos(
             $nombre,
             $apellido_paterno,

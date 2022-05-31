@@ -19,14 +19,14 @@ la estructura del proyecto es la siguiente:
 
 ![mvc](./docs/img/mvc.png)
 
-
 ### raíz
 
 En la raíz del proyecto vemos los archivos [`index.php`](index.php) y [`route.php`](route.php). `index.php` se encarga de inicializar el proyecto cargando
 las clases PHP del proyecto, creando asi sus `namespaces`. `route.php`
 inicializa todas las rutas con sus respectivas acciones.
 
-Tambien esta [`.htaccess`](.htaccess), que son las instrucciones especificas del proyecto ante un servidor Apache (véase [instalación](#instalación)).
+También esta [`.htaccess`](.htaccess), que son las instrucciones especificas del proyecto ante un servidor Apache (véase [instalación](#instalación)).
+
 ### conf
 
 La carpeta `conf` contiene nuestras variables para desarrollo y producción.
@@ -41,3 +41,7 @@ Esta carpeta contiene la mayor parte del proyecto.
 + Las Vistas a Cargar [`recetario/view`](recetario/view/).
 + Implementación de las reglas de negocio [`recetario/Controller`](recetario/Controller/)
 + Los estilos y scripts que nos ayudará a manipular la web [`recetario/assets`](recetario/assets/)
+
+---
+
+Repositorio del proyecto - <https://github.com/tysyak/Proyecto_negocios_2022>

@@ -42,6 +42,19 @@ Esta carpeta contiene la mayor parte del proyecto.
 + Implementación de las reglas de negocio [`recetario/Controller`](recetario/Controller/)
 + Los estilos y scripts que nos ayudará a manipular la web [`recetario/assets`](recetario/assets/)
 
+## Base de datos
+
+La base de datos se compone de once tablas:
+
+![er](./docs/img/er.png)
+
+## Clases
+
+Se usa PDO para acceder a la base de datos, y cada modelo contiene una conexión a la base de datos cada vez que
+se inicializa un objeto de la clase.
+
+![clases](./docs/img/clases.png)
+
 ---
 
 Repositorio del proyecto - <https://github.com/tysyak/Proyecto_negocios_2022>

@@ -55,6 +55,28 @@ se inicializa un objeto de la clase.
 
 ![clases](./docs/img/clases.png)
 
+## Controlador
+
+El controlador se compone igual de clases pero en su totalidad de métodos estaticos,
+esto es con el fin de optimizar el acceso a las regals de negocio y que las llamadas
+a aquellos métodos sean relativamente más optimas.
+
+![controller](./docs/img/controller.png)
+
+
+## Vistas
+
+Las vistas son el html que se va a mostrar, estas se llaman mediante métodos GET.
+Estas vistas contienen el panel y los formularios necesarios para mostrar el usuario.
+el archivo [`recetario/view/panel.view.php`](recetario/view/panel.view.php) llama los
+scripts y los estilos en definidos, en este archivo se cargan las demás vistas.
+
+## Enrutador
+
+El enrutador está diseñado pracialmente a prueba de errores, ya que el programador puede
+renderizar una exception a páginas que no existen o bien a páginas específicas que los usuarios
+no pueden ingresar
+
 ---
 
 Repositorio del proyecto - <https://github.com/tysyak/Proyecto_negocios_2022>

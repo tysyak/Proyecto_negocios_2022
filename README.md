@@ -4,6 +4,19 @@
   + Cristian Romero Andrade
   + Victor Anizar Morales
 
+## Implementación
+
+Se utilizo Amazon Web Services para su implementación
+
+### Stack
+
++ Amazon Linux como sistema operativo
++ PHP 8.0.16
++ mariaDB 15.1
++ Apache 2.4.53
+
+[Click aquí para ir a la instanción en Ejecución](http://ec2-3-135-63-147.us-east-2.compute.amazonaws.com/) 
+
 ## Instalación
 
 Para la configuración del Stack XAMPP véase la configuración de [servidor en la carpeta doc](docs/Servidor/README.md)

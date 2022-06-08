@@ -15,7 +15,7 @@ Se utilizo Amazon Web Services para su implementación
 + mariaDB 15.1
 + Apache 2.4.53
 
-[Click aquí para ir a la instanción en Ejecución](http://ec2-3-135-63-147.us-east-2.compute.amazonaws.com/) 
+[Click aquí para ir a la instancia en Ejecución](http://ec2-3-135-63-147.us-east-2.compute.amazonaws.com/) 
 
 ## Instalación
 

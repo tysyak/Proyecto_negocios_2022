@@ -16,6 +16,7 @@ Se utilizo Amazon Web Services para su implementación
 + Apache 2.4.53
 
 [Click aquí para ir a la instancia en Ejecución](http://ec2-3-135-63-147.us-east-2.compute.amazonaws.com/)
+(La instancia estara abierta hasta el viernes 10 de junio del 2022)
 
 La contraseña para todos los usuarios de prueba es `system`
 
